@@ -1,9 +1,11 @@
 package com.karat.cn.blog_backstage.bean;
 
+import java.io.Serializable;
+
 /**
  * 评论
  */
-public class Comment {
+public class Comment implements Serializable {
     //评论ID
     private String id;
     //评论人头像

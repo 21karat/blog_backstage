@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,24 +22,6 @@ public class StudentTest {
     @Autowired
     RedisTemplate redisTemplate;
 
-    /**
-     * 查询所有
-     */
-    @Test
-    public void findAll() {
-        String key = "student";
-        //查看对象
-        List<Student> list=new ArrayList<>();
-        //查看所有
-        ListOperations<String, Student> operations = redisTemplate.opsForList();
-        //缓存存在
-        if (redisTemplate.hasKey(key)) {
-            list=operations.range(key, 0, -1);//转成对象
-        }
-        list.forEach(i->{
-            System.out.println(i.toString());//输出
-        });
-    }
 
     /**
      * 根据id查询学生信息
@@ -93,6 +74,25 @@ public class StudentTest {
     }
 
     /**
+     * 修改学生信息某一字段
+     */
+    @Test
+    public void modifyBy() {
+        //实例
+        ValueOperations operations = redisTemplate.opsForValue();
+        //缓存存在
+        String key = "student_" +1;
+        if (redisTemplate.hasKey(key)) {
+            //更新缓存
+            Student stu=(Student)operations.get(key);
+            System.out.println(stu);
+            stu.setName("99999");
+            operations.set(key,stu);
+            System.out.println(operations.get(key));
+        }
+    }
+
+    /**
      * 添加学生信息
      */
     @Test
@@ -115,27 +115,31 @@ public class StudentTest {
     @Test
     public void addList() {
         String key = "student_list_";
+        //查看添加的list
+        List<Student> userList1=(List<Student>)redisTemplate.opsForValue().get(key+1);
+        userList1.forEach(i->{
+            System.out.println(i.toString());
+        });
+        System.out.println("*****************");
         //对象集合
         List list=new ArrayList();
-        Student student1=new Student(1,"荆轲","男");
-        Student student2=new Student(2,"小明","男");
-        Student student3=new Student(3,"小红","女");
+        Student student1=new Student(7,"333","男");
+        Student student2=new Student(8,"444","男");
+        Student student3=new Student(9,"555","女");
         list.add(student1);
         list.add(student2);
         list.add(student3);
-        //实例
-        ValueOperations operations = redisTemplate.opsForValue();
         //缓存不存在
-        if (!redisTemplate.hasKey(key+1)) {
+        if (redisTemplate.hasKey(key+1)){
             //添加缓存
-            operations.set(key+1,list);
+            //redisTemplate.opsForValue().set(key+1,list);
+            redisTemplate.opsForValue().getAndSet(key+1,list);
         }
         //查看添加的list
-        List<Student> userList=(List<Student>)operations.get(key+1);
-        userList.forEach(i->{
+        List<Student> userList2=(List<Student>)redisTemplate.opsForValue().get(key+1);
+        userList2.forEach(i->{
             System.out.println(i.toString());
         });
     }
-
 
 }

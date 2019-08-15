@@ -5,9 +5,10 @@ import com.karat.cn.blog_backstage.bean.Blog;
 import java.util.List;
 
 /**
- * 博客列表返回vo
+ * 博客列表Vo
  */
-public class IndexResponseVo {
+public class BlogResponseVo {
+
     //状态码
     private String code;
     //状态描述
@@ -17,11 +18,10 @@ public class IndexResponseVo {
     //内容
     private List<Blog> blogs;
 
-
-    public IndexResponseVo() {
+    public BlogResponseVo() {
     }
 
-    public IndexResponseVo(String code, String msg, int page, List<Blog> blogs) {
+    public BlogResponseVo(String code, String msg, int page, List<Blog> blogs) {
         this.code = code;
         this.msg = msg;
         this.page = page;

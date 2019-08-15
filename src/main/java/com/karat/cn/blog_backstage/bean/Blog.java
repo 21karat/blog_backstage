@@ -1,9 +1,11 @@
 package com.karat.cn.blog_backstage.bean;
 
+import java.io.Serializable;
+
 /**
  * 博客
  */
-public class Blog {
+public class Blog implements Serializable {
     //博客ID
     private String id;
     //作者
@@ -14,8 +16,8 @@ public class Blog {
     private String url;
     //内容
     private String content;
-    //点赞人数
-    private int fabulous;
+    //时间
+    private String time;
     //喜欢人数
     private int love;
     //阅读人数
@@ -26,13 +28,13 @@ public class Blog {
     public Blog() {
     }
 
-    public Blog(String id, String author, String title, String url, String content, int fabulous, int love, int read, int watch) {
+    public Blog(String id, String author, String title, String url, String content, String time, int love, int read, int watch) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.url = url;
         this.content = content;
-        this.fabulous = fabulous;
+        this.time = time;
         this.love = love;
         this.read = read;
         this.watch = watch;
@@ -78,12 +80,12 @@ public class Blog {
         this.content = content;
     }
 
-    public int getFabulous() {
-        return fabulous;
+    public String getTime() {
+        return time;
     }
 
-    public void setFabulous(int fabulous) {
-        this.fabulous = fabulous;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getLove() {
@@ -108,5 +110,20 @@ public class Blog {
 
     public void setWatch(int watch) {
         this.watch = watch;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id='" + id + '\'' +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", content='" + content + '\'' +
+                ", time=" + time +
+                ", love=" + love +
+                ", read=" + read +
+                ", watch=" + watch +
+                '}';
     }
 }
