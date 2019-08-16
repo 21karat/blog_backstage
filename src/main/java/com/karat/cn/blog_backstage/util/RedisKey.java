@@ -29,5 +29,10 @@ public class RedisKey {
     public static final String USER="user_";
 
 
+    //友链
+    public static final String FRIEND="friend";
+
+    //联系作者
+    public static final String AUTHOR="author";
 
 }

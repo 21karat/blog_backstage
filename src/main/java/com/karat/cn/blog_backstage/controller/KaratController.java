@@ -1,12 +1,7 @@
 package com.karat.cn.blog_backstage.controller;
 
-import com.karat.cn.blog_backstage.bean.Blog;
-import com.karat.cn.blog_backstage.bean.Comment;
-import com.karat.cn.blog_backstage.bean.User;
-import com.karat.cn.blog_backstage.dao.BlogDao;
-import com.karat.cn.blog_backstage.dao.CommentDao;
-import com.karat.cn.blog_backstage.dao.TagDao;
-import com.karat.cn.blog_backstage.dao.UserDao;
+import com.karat.cn.blog_backstage.bean.*;
+import com.karat.cn.blog_backstage.dao.*;
 import com.karat.cn.blog_backstage.util.HtmlUtil;
 import com.karat.cn.blog_backstage.util.IdUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
@@ -35,6 +30,10 @@ public class KaratController {
     CommentDao commentDao;
     @Autowired
     UserDao userDao;
+    @Autowired
+    FriendDao friendDao;
+    @Autowired
+    AuthorDao authorDao;
 
 
     /**
@@ -210,5 +209,22 @@ public class KaratController {
         }
     }
 
+    /**
+     * 查看友链
+     * @return
+     */
+    @RequestMapping("getFrends")
+    public List<Friend> getFrends(){
+        return friendDao.selectAll();
+    }
 
+
+    /**
+     * 联系我
+     * @return
+     */
+    @RequestMapping("selectAuthor")
+    public Author selectAuthor(){
+        return authorDao.select();
+    }
 }
