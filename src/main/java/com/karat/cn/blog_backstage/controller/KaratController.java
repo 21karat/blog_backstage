@@ -1,6 +1,5 @@
 package com.karat.cn.blog_backstage.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.karat.cn.blog_backstage.bean.Blog;
 import com.karat.cn.blog_backstage.bean.Comment;
 import com.karat.cn.blog_backstage.bean.User;
@@ -12,10 +11,7 @@ import com.karat.cn.blog_backstage.util.HtmlUtil;
 import com.karat.cn.blog_backstage.util.IdUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
 import com.karat.cn.blog_backstage.util.TimeUtil;
-import com.karat.cn.blog_backstage.vo.BlogResponseVo;
-import com.karat.cn.blog_backstage.vo.CommentResponseVo;
-import com.karat.cn.blog_backstage.vo.DetailResponseVo;
-import com.karat.cn.blog_backstage.vo.UserResponseVo;
+import com.karat.cn.blog_backstage.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +19,9 @@ import io.swagger.annotations.Api;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import weixin.popular.api.SnsAPI;
+import weixin.popular.bean.sns.Jscode2sessionResult;
 
 @RestController
 @Api("接口")
@@ -136,14 +135,14 @@ public class KaratController {
     /**
      * 添加评论
      * @param blogId
-     * @param userId
+     * @param openId
      * @param content
      * @return
      */
     @RequestMapping("addComment")
-    public CommentResponseVo addComment(String blogId, String userId, String content){
-        System.out.println("【博客ID】"+blogId+"【用户ID】"+userId+"【内容】"+content);
-        User user=userDao.selectById(userId);
+    public CommentResponseVo addComment(String blogId, String openId, String content){
+        System.out.println("【博客ID】"+blogId+"【用户openId】"+openId+"【内容】"+content);
+        User user=userDao.selectById(openId);
         if(user!=null){
             commentDao.addComment(new Comment(IdUtil.getOrderIdByTime(),user.getUrl(),user.getName(),content, TimeUtil.formateDbDate(TimeUtil.systemtime()),blogId));
             return new CommentResponseVo("200","请求成功");
@@ -172,13 +171,27 @@ public class KaratController {
 
     /**
      * 添加用户信息
-     * @param user
+     * @param userRequestVo
+     * @return
      */
     @RequestMapping("addUser")
-    public UserResponseVo addUser(User user){
-        System.out.println("【用户信息】"+user.toString());
-        userDao.addUser(user);
-        return new UserResponseVo("200","请求成功",null);
+    public UserResponseVo addUser(UserRequestVo userRequestVo){
+        System.out.println("【请求信息】"+userRequestVo.toString());
+        UserResponseVo vo=new UserResponseVo("200","请求成功",null);
+        String appid="wxd7c8e803703c3868"; String secret="bf286bf21e998d272f5319db1a2dd9b0"; String code=userRequestVo.getCode();
+        //1,获取凭证信息
+        Jscode2sessionResult token = SnsAPI.jscode2session(appid, secret,code);
+        if(!token.getOpenid().equals("")){
+            System.out.println("【OPENID】"+token.getOpenid());
+            User user=userDao.selectById(token.getOpenid());
+            if(user!=null){
+                vo.setUser(user);
+            }else{
+                userDao.addUser(new User(IdUtil.getOrderIdByTime(),token.getOpenid(),userRequestVo.getAvatarUrl(),userRequestVo.getNickName()));
+                vo.setUser(userDao.selectById(token.getOpenid()));
+            }
+        }
+        return vo;
     }
 
     /**
