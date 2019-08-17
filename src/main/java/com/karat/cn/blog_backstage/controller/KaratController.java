@@ -2,10 +2,7 @@ package com.karat.cn.blog_backstage.controller;
 
 import com.karat.cn.blog_backstage.bean.*;
 import com.karat.cn.blog_backstage.dao.*;
-import com.karat.cn.blog_backstage.util.HtmlUtil;
-import com.karat.cn.blog_backstage.util.IdUtil;
-import com.karat.cn.blog_backstage.util.RedisKey;
-import com.karat.cn.blog_backstage.util.TimeUtil;
+import com.karat.cn.blog_backstage.util.*;
 import com.karat.cn.blog_backstage.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -165,6 +162,27 @@ public class KaratController {
        }else{
            return new CommentResponseVo("201","请求失败",0,null);
        }
+    }
+
+
+    /**
+     * 获取openId
+     * @param code
+     * @return
+     */
+    @RequestMapping("getOpenId")
+    public WxResponseVo getOpenId(String code){
+        WxResponseVo vo=new WxResponseVo("201","请求失败","");
+        String appid="wxd7c8e803703c3868"; String secret="bf286bf21e998d272f5319db1a2dd9b0";
+        //1,获取凭证信息
+        Jscode2sessionResult token = SnsAPI.jscode2session(appid, secret,code);
+        if(!token.getOpenid().equals("")){
+            System.out.println("【OPENID】"+token.getOpenid());
+            vo.setCode("200");
+            vo.setMsg("请求成功");
+            vo.setOpenid(token.getOpenid());
+        }
+        return vo;
     }
 
 
