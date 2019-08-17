@@ -182,4 +182,10 @@ public class BlogDemo {
             System.out.println(i.toString());
         });
     }
+
+    @Test
+    public void addTag(){
+        //添加标签
+        tagDao.addTag("1566030006318797615", RedisKey.OTHER);
+    }
 }
