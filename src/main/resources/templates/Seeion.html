@@ -1,0 +1,152 @@
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <ul>
+        <li><strong>session概念：</strong>在WEB开发中，<span style="color: #008000;">服务器</span>可以<span style="color: #008000;">为</span>每个用户<span style="color: #008000;">浏览器创建</span>一个<span style="color: #008000;">会话对象</span>（<span style="color: #008000;">session对象</span>），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，<span style="color: #008000;">服务器</span>程序<span style="color: #008000;">可以把</span>用户数据<span style="color: #008000;">写到</span>用户浏览器独占的<span style="color: #008000;">session中</span>，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。<span style="color: #ff0000;">session对象以键值方式存储在ConcurrentHashMap中。</span></li>
+        <li><strong>session与cookie区别？</strong></li>
+    </ul>
+    <ol>
+        <li>Cookie是把用户的数据写给用户的浏览器（<span style="color: #008000;">数据存在本地浏览器</span>）。</li>
+        <li>Session是把用户的数据写到用户独占的session中（<span style="color: #008000;">数据存在服务器内存</span>）。</li>
+        <li>Session对象由服务器创建，开发人员可以调用<span style="color: #008000;">request</span>对象的<span style="color: #008000;">getSession</span>方法得到<span style="color: #008000;">session对象</span></li>
+    </ol>
+    <ul>
+        <li id="blogTitle3"><strong>服务器是如何实现一个session为一个用户浏览器服务的？</strong></li>
+    </ul>
+    <div class="cnblogs_code">
+<pre><span style="color: #000000;">服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，
+
+这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带sessionid过来了，
+
+就会使用内存中与之对应的session为之服务。</span></pre>
+    </div>
+    <p>参考：<a title="https://www.cnblogs.com/xdp-gacl/p/3855702.html" href="https://www.cnblogs.com/xdp-gacl/p/3855702.html" target="_blank">https://www.cnblogs.com/xdp-gacl/p/3855702.html</a></p>
+    <p>&nbsp;</p>
+    <hr>
+    <ul>
+        <li><strong>关于cookie</strong></li>
+    </ul>
+    <ol>
+        <li>cookie中包含信息：名字，值，过期时间，路径，域。</li>
+        <li>cookie会带到http请求头中发送给服务器端。</li>
+        <li>如果cookie没有设置过期时间的话，那么cookie默认生命周期是浏览器的会话。</li>
+    </ol>
+    <ul>
+        <li><strong>浏览器查看cookie：</strong></li>
+    </ul>
+    <p><img src="https://img2018.cnblogs.com/blog/1389155/201904/1389155-20190423160803342-1321758763.png" alt="" width="547" height="260"></p>
+    <p>&nbsp;</p>
+    <hr>
+    <p>&nbsp;</p>
+    <ul>
+        <li><strong>session机制</strong></li>
+    </ul>
+    <ol>
+        <li>session是容器对象，客户端在请求服务端的时候，服务端会根据客户端的请求判断是否包含了sessionid的标识。</li>
+        <li>如果已经包含了，说明客户端之前已经建立了会话。<span style="color: #ff0000;">sessionid是唯一的值</span></li>
+        <li>如果sessionid不存在，那么服务端会为这个客户端生成一个sessionid。<span style="color: #ff0000;">JSESSIONID</span></li>
+    </ol>
+    <ul>
+        <li id="blogTitle9"><strong>session对象的创建时机</strong></li>
+    </ul>
+    <ol>
+        <li>Session在用户<span style="color: #008000;">第一次访问服务器</span>的时候<span style="color: #008000;">自动创建</span>。</li>
+        <li>需要注意<span style="color: #008000;">只有</span>访问<span style="color: #008000;">JSP</span>、<span style="color: #008000;">Servlet</span>等程序时<span style="color: #008000;">才会创建Session</span>，只访问<span style="color: #008000;">HTML</span>、<span style="color: #008000;">IMAGE</span>等静态资源并<span style="color: #008000;">不会创建Session</span>。</li>
+        <li>如果尚<span style="color: #008000;">未生成Session</span>，也可以使用<span style="color: #ff0000;">request.getSession(true)</span>强制<span style="color: #008000;">生成Session。</span></li>
+        <li>可以用<span style="color: #ff0000;">isNew()</span>方法来<span style="color: #ff0000;">判断Session</span>是不是新创建的(其它相关方法自寻查询)。</li>
+    </ol>
+    <ul>
+        <li id="blogTitle10"><strong>session对象的销毁时机</strong>
+            <ul>
+                <li><span style="color: #008000;">session对象默认30分钟没有使用，则服务器会自动销毁session，在<span style="color: #ff0000;">web.xml</span>文件中可以手工配置<span style="color: #ff0000;">session的失效时间</span></span></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+        <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+   &lt;web-app version="2.5"<span style="color: #000000;">
+     xmlns</span>="http://java.sun.com/xml/ns/javaee"<span style="color: #000000;">
+     xmlns:xsi</span>="http://www.w3.org/2001/XMLSchema-instance"<span style="color: #000000;">
+     xsi:schemaLocation</span>="http://java.sun.com/xml/ns/javaee
+     http:<span style="color: #008000;">//</span><span style="color: #008000;">java.sun.com/xml/ns/javaee/web-app_2_5.xsd"&gt;</span>
+   &lt;!-- 设置Session的有效时间:以分钟为单位--&gt;
+   &lt;session-config&gt;
+       &lt;session-timeout&gt;15&lt;/session-timeout&gt;
+   &lt;/session-config&gt;
+ &lt;/web-app&gt;</pre>
+        <div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div></div>
+    <ul>
+        <li style="list-style-type: none;">
+            <ul>
+                <li><span style="color: #008000;">当需要在程序中<span style="color: #ff0000;">手动设置Session失效</span>时，可以手工调用<span style="color: #ff0000;"><strong>session.invalidate</strong></span>方法，摧毁session。</span></li>
+            </ul>
+        </li>
+    </ul>
+    <hr>
+    <p>&nbsp;</p>
+    <ul>
+        <li><strong>session共享问题</strong></li>
+    </ul>
+    <ol>
+        <li><span style="color: #008000;">基于session复制</span>(同步复制，tomcat之间session相互复制)(会造成浪费存储空间)</li>
+        <li><span style="color: #008000;">基于session统一存储</span>(每一个session都会存储到一起，可以存数据库中也可以存到redis中)</li>
+        <li><span style="color: #008000;">基于cookie机制<span style="color: #000000;">(App生成一个token通过http带到浏览器，每次请求带上token)</span></span></li>
+    </ol>
+    <ul>
+        <li>
+            <p><strong><span style="color: #008000;"><span style="color: #000000;">JWT的解决方案(基于cookie机制)</span></span></strong></p>
+        </li>
+    </ul>
+    <ol>
+        <li><span style="color: #008000;"><span style="color: #000000;">Json Web Token：</span></span><span style="color: #008000;"><span style="color: #000000;">客户端和服务端信息安全传递以及身份认证的一种解决方案：用到登陆上</span></span></li>
+        <li>Jwt的组成：jwt由3个部分组成：header，playload，signature</li>
+    </ol>
+    <ul>
+        <li style="list-style-type: none;">
+            <ul>
+                <li>header</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="cnblogs_code">
+<pre><span style="color: #000000;">{
+type:</span>"jwt"　　　<span style="color: #008000;">//</span><span style="color: #008000;">类型</span>
+alg:"HS256"　　<span style="color: #008000;">//</span><span style="color: #008000;">算法</span>
+}</pre>
+    </div>
+    <ul>
+        <li style="list-style-type: none;">
+            <ul>
+                <li><span style="color: #008000;"><span style="color: #000000;">playload</span></span></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+        <pre><span style="color: #000000;">{
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">jwt本身规范提供的格式claims</span>
+<span style="color: #000000;">
+iss:</span>""　　<span style="color: #008000;">//</span><span style="color: #008000;">签发者</span>
+<span style="color: #000000;">
+iat:</span>""　　<span style="color: #008000;">//</span><span style="color: #008000;">签发时间</span>
+<span style="color: #000000;">
+exp:</span>""　　<span style="color: #008000;">//</span><span style="color: #008000;">过期时间</span>
+<span style="color: #000000;">
+sub:</span>""　　<span style="color: #008000;">//</span><span style="color: #008000;">jwt拥有着(主题)
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">自己定义一些claims</span>
+<span style="color: #000000;">
+uid:</span>""<span style="color: #000000;">
+
+}</span></pre>
+        <div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div></div>
+    <ul>
+        <li style="list-style-type: none;">
+            <ul>
+                <li><span style="color: #008000;"><span style="color: #000000;">signature　　//header+playload组合成一个字符串</span></span></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li><span style="color: #008000;"><span style="color: #000000;"><strong>Base64(header).Base64(playload)组合的字符串根据算法密钥生成JWT的token</strong>。(str.签名字符串)</span></span></li>
+    </ul>
+    <p>&nbsp;</p>
+</div>

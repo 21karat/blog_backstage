@@ -1,0 +1,83 @@
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <ul>
+        <li><strong>概念：</strong>第三方技术CGLIB动态代理和JDK代理不同的是，JDK代理<span style="color: #008000;">需要提供接口</span>，而CGLIB代理<span style="color: #008000;">不需要。</span>它只需要一个非抽象类就能实现动态代理</li>
+        <li><strong>例子：</strong></li>
+    </ul>
+    <div class="cnblogs_code" onclick="cnblogs_code_show('3ea0b260-6e1b-4574-abff-483d4837ff38')"><img id="code_img_closed_3ea0b260-6e1b-4574-abff-483d4837ff38" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_3ea0b260-6e1b-4574-abff-483d4837ff38" class="code_img_opened" style="display: none;" onclick="cnblogs_code_hide('3ea0b260-6e1b-4574-abff-483d4837ff38',event)" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+        <div id="cnblogs_code_open_3ea0b260-6e1b-4574-abff-483d4837ff38" class="cnblogs_code_hide">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">/**</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;"> * 非抽象类
+</span><span style="color: #008080;"> 3</span> <span style="color: #008000;"> * </span><span style="color: #808080;">@author</span><span style="color: #008000;"> Administrator
+</span><span style="color: #008080;"> 4</span> <span style="color: #008000;"> *
+</span><span style="color: #008080;"> 5</span>  <span style="color: #008000;">*/</span>
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> HelloService {
+</span><span style="color: #008080;"> 7</span>
+<span style="color: #008080;"> 8</span>     <span style="color: #0000ff;">void</span><span style="color: #000000;"> say(){
+</span><span style="color: #008080;"> 9</span>         System.out.println("看见"<span style="color: #000000;">);
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">11</span> }</pre>
+        </div>
+        <span class="cnblogs_code_collapse">非抽象类</span></div>
+    <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+        <pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> java.lang.reflect.Method;
+
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> net.sf.cglib.proxy.Enhancer;
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> net.sf.cglib.proxy.MethodInterceptor;
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> net.sf.cglib.proxy.MethodProxy;
+
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> CglibProxyExample <span style="color: #0000ff;">implements</span><span style="color: #000000;"> MethodInterceptor{
+
+
+    </span><span style="color: #008000;">/**</span><span style="color: #008000;">
+     * 生成CGLIB代理对象
+     * </span><span style="color: #808080;">@param</span><span style="color: #008000;"> cls    Class类
+     * </span><span style="color: #808080;">@return</span><span style="color: #008000;">        Class类的CGLIB代理对象
+     </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+    @SuppressWarnings(</span>"rawtypes"<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> Object getInstance(Class cls) {
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">CGLIB  enhancer增强类对象  </span>
+        Enhancer enhancer = <span style="color: #0000ff;">new</span><span style="color: #000000;"> Enhancer();
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">设置增强类型</span>
+<span style="color: #000000;">        enhancer.setSuperclass(cls);
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">定义代理逻辑对象为当前对象，要求当前对象实现MethodInterceptor方法</span>
+        enhancer.setCallback(<span style="color: #0000ff;">this</span><span style="color: #000000;">);
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">生成并返回代理对象  </span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> enhancer.create();
+    }
+
+
+    @Override
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> Object intercept(Object arg0, Method arg1,
+            Object[] arg2, MethodProxy arg3) </span><span style="color: #0000ff;">throws</span><span style="color: #000000;"> Throwable {
+        </span><span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub</span>
+        System.out.println("事务开始"<span style="color: #000000;">);
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">CGLIB反射调用真实对象的方法</span>
+        Object invoke=<span style="color: #000000;">arg3.invokeSuper(arg0, arg2);
+        System.out.println(</span>"事务结束"<span style="color: #000000;">);
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> invoke;
+    }
+
+}</span></pre>
+        <div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div></div>
+    <div class="cnblogs_code" onclick="cnblogs_code_show('eb31595c-b4fd-4b1b-b40a-7bdee57120b0')"><img id="code_img_closed_eb31595c-b4fd-4b1b-b40a-7bdee57120b0" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_eb31595c-b4fd-4b1b-b40a-7bdee57120b0" class="code_img_opened" style="display: none;" onclick="cnblogs_code_hide('eb31595c-b4fd-4b1b-b40a-7bdee57120b0',event)" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+        <div id="cnblogs_code_open_eb31595c-b4fd-4b1b-b40a-7bdee57120b0" class="cnblogs_code_hide">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">/**</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;"> * cglib动态代理
+</span><span style="color: #008080;"> 3</span> <span style="color: #008000;"> * </span><span style="color: #808080;">@author</span><span style="color: #008000;"> 开发
+</span><span style="color: #008080;"> 4</span> <span style="color: #008000;"> *
+</span><span style="color: #008080;"> 5</span>  <span style="color: #008000;">*/</span>
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> TestCglib {
+</span><span style="color: #008080;"> 7</span>
+<span style="color: #008080;"> 8</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main(String args[]){
+</span><span style="color: #008080;"> 9</span>         CglibProxyExample s=<span style="color: #0000ff;">new</span><span style="color: #000000;"> CglibProxyExample();
+</span><span style="color: #008080;">10</span>         HelloService s1=(HelloService)s.getInstance(HelloService.<span style="color: #0000ff;">class</span><span style="color: #000000;">);
+</span><span style="color: #008080;">11</span> <span style="color: #000000;">        s1.say();
+</span><span style="color: #008080;">12</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">13</span> }</pre>
+        </div>
+        <span class="cnblogs_code_collapse">调用Demo</span></div>
+    <ul>
+        <li><strong>解析：</strong>使用了CGLIB的<span style="color: #008000;">加强者Enhancer</span>后，设置超类方法(<span style="color: #008000;">setSuperclass</span>)，通过(<span style="color: #008000;">setCallback</span>)方法<span style="color: #008000;">设置哪个类为代理类</span>，this表示当前类。那么当前类<span style="color: #008000;">就得实现接口MethodInterceptor</span>的方法intercept，然后返回代理对象。<span style="color: #008000;">代理的逻辑</span>可以在方法<span style="color: #008000;">intercept中实现</span>，通过该方法从而达到控制真实对象的目的。</li>
+    </ul>
+    <p>&nbsp;</p>
+</div>

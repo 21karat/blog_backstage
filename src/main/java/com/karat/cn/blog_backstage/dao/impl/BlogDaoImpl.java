@@ -67,4 +67,18 @@ public class BlogDaoImpl implements BlogDao {
         });
         return blogs;
     }
+    //添加博客详情HTML
+    public void addBlogHtml(String blogId,String html){
+        if (!redisTemplate.hasKey(RedisKey.BLOGHTML+blogId)) {
+            redisTemplate.opsForValue().set(RedisKey.BLOGHTML+blogId,html);//添加博客详情HTML
+        }
+    }
+    //查看博客ID对应的HTML
+    public String selectHtml(String blogId){
+        if(redisTemplate.hasKey(RedisKey.BLOGHTML+blogId)){
+            return (String)redisTemplate.opsForValue().get(RedisKey.BLOGHTML+blogId);
+        }else{
+            return "";
+        }
+    }
 }

@@ -36,8 +36,8 @@ public class StudentTest {
         //缓存存在
         if (redisTemplate.hasKey(key)) {
             student=operations.get(key);//获取该键对应的对象
+            System.out.println(student.toString());
         }
-        System.out.println(student.toString());
     }
 
 
@@ -116,10 +116,12 @@ public class StudentTest {
     public void addList() {
         String key = "student_list_";
         //查看添加的list
-        List<Student> userList1=(List<Student>)redisTemplate.opsForValue().get(key+1);
-        userList1.forEach(i->{
-            System.out.println(i.toString());
-        });
+        /*List<Student> userList1=(List<Student>)redisTemplate.opsForValue().get(key+1);
+        if(userList1.size()>0){
+            userList1.forEach(i->{
+                System.out.println(i.toString());
+            });
+        }*/
         System.out.println("*****************");
         //对象集合
         List list=new ArrayList();
@@ -136,10 +138,12 @@ public class StudentTest {
             redisTemplate.opsForValue().getAndSet(key+1,list);
         }
         //查看添加的list
-        List<Student> userList2=(List<Student>)redisTemplate.opsForValue().get(key+1);
-        userList2.forEach(i->{
-            System.out.println(i.toString());
-        });
+       /* List<Student> userList2=(List<Student>)redisTemplate.opsForValue().get(key+1);
+        if(userList2.size()>0){
+            userList2.forEach(i->{
+                System.out.println(i.toString());
+            });
+        }*/
     }
 
 }

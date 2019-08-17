@@ -1,0 +1,57 @@
+<div class="htmledit_views" id="content_views">
+    <p>1.Jinji2模板引擎(Falsk内置模板引擎，来源与另一个框架Django)</p>
+
+    <p>例：render_template()中传模板以及入参，那么在模板中可以直接通过{{}}来使用</p>
+
+    <p><img alt="" class="has" height="110" src="https://img-blog.csdnimg.cn/2019061818274261.png" width="461"></p>
+
+    <p><img alt="" class="has" height="396" src="https://img-blog.csdnimg.cn/20190618182800243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="462"></p>
+
+    <p>2.定义路由入参(入参类型)以及路由请求格式(路由默认只支持GET请求)</p>
+
+    <p>例：通过&lt;int&gt;表明只接收orderId为int类型的参数，请求格式由methods=['','']格式实现</p>
+
+    <p><img alt="" class="has" height="253" src="https://img-blog.csdnimg.cn/2019061818312080.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="659"></p>
+
+    <p>3.模板中注释使用：{#注释内容#} 实现，快捷键：Ctrl+/</p>
+
+    <p>4.传参为列表，字典，整型时对应模板展示数据方式如下图：</p>
+
+    <p><img alt="" class="has" height="368" src="https://img-blog.csdnimg.cn/20190619113137493.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="747"></p>
+
+    <p><img alt="" class="has" height="488" src="https://img-blog.csdnimg.cn/2019061911314582.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="495"></p>
+
+    <p>5.模板中控制代码块使用：通过{%%}实现</p>
+
+    <p><img alt="" class="has" height="293" src="https://img-blog.csdnimg.cn/20190619114024118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="562"></p>
+
+    <p>6.给模板传递消息：flash使用-------&gt;使用flash需要对内容加密，需要设置：secret_key：加密的key</p>
+
+    <p><img alt="" class="has" height="159" src="https://img-blog.csdnimg.cn/20190619132631396.png" width="596"></p>
+
+    <p>方法中通过flash('内容')方式将信息返回模板</p>
+
+    <p><img alt="" class="has" height="571" src="https://img-blog.csdnimg.cn/20190619132745794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="704"></p>
+
+    <p>模板中通过for循环遍历get_flashed_messages()方法的值</p>
+
+    <p><img alt="" class="has" height="160" src="https://img-blog.csdnimg.cn/20190619132847588.png" width="614"></p>
+
+    <p>&nbsp;</p>
+
+    <p>7.WTF表单使用</p>
+
+    <p>导包</p>
+
+    <p><img alt="" class="has" height="57" src="https://img-blog.csdnimg.cn/20190619135729940.png" width="715"></p>
+
+    <p>路由以及自定义类</p>
+
+    <p><img alt="" class="has" height="414" src="https://img-blog.csdnimg.cn/20190619135759167.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xqMjAxNzA1MTA=,size_16,color_FFFFFF,t_70" width="687"></p>
+
+    <p>模板使用</p>
+
+    <p><img alt="" class="has" height="172" src="https://img-blog.csdnimg.cn/2019061913581182.png" width="716"></p>
+
+    <p>文章来自阿里云大学视频笔记</p>
+</div>

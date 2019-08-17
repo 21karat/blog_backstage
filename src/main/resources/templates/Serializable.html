@@ -1,0 +1,18 @@
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <ul>
+        <li>概念：把<span style="color: #339966;">对象</span>转化成<span style="color: #339966;">字节序列</span>的过程称之为对象的序列化，反之，称为反序列化。</li>
+        <li>实现：</li>
+    </ul>
+    <ol>
+        <li>implements Serializable：实现Serializable接口。</li>
+        <li>ObjectInputStream&nbsp;&nbsp;: <span style="font-family: 微软雅黑;">表示读取指定的字节数据转换成对象。</span></li>
+        <li>ObjectOutputStream&nbsp;<span style="font-family: 微软雅黑;">：将一个对象转换成二进制流。</span></li>
+    </ol>
+    <ul>
+        <li class="pre"><span style="font-family: 微软雅黑;">序列化并<span style="color: #339966;">不保存静态变量</span>。</span></li>
+        <li class="pre"><span style="font-family: 微软雅黑;">Transient关键字表示<span style="color: #339966;">指定属性</span><span style="color: #0000ff;">不参与序列化</span>，被修饰的属性通过反序列化得到的是该属性的<span style="color: #008000;">初始值</span>。</span></li>
+        <li class="pre"><span style="font-family: 微软雅黑;">如果父类没有实现序列化(没有implements Serializable)，而子类实现序列化。那么父类中的成员变量没办法做序列化操作。</span></li>
+        <li class="pre"><span style="font-family: 微软雅黑;">对象能否被反序列化，不仅仅取决与对象的代码是否一致，还取决与<span style="color: #008000;">UID</span>。</span></li>
+        <li class="pre"><span style="font-family: 微软雅黑;">序列化存储规则：</span><span style="font-family: 微软雅黑;">对同一对象进行多次写入，打印出的第一次存储结果和第二次存储结果，只<span style="color: #008000;">多了5个字节的引用关系</span>。并不会导致文件的累加。</span></li>
+    </ul>
+</div>

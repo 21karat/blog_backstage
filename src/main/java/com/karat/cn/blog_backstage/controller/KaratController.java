@@ -74,7 +74,7 @@ public class KaratController {
         if(blog!=null){
             vo.setCode("200");
             vo.setMsg("请求成功");
-            vo.setSlug(HtmlUtil.getHtmlString());
+            vo.setSlug(blogDao.selectHtml(blog.getId()));
             vo.setBlog(blog);
         }else{
             vo.setCode("201");

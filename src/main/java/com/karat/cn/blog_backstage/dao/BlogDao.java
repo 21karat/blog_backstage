@@ -19,4 +19,9 @@ public interface BlogDao {
     //分页查询博客列表
     List<Blog> selectAllByPage(int limit,int page);
 
+    //添加博客详情HTML
+    void addBlogHtml(String blogId,String html);
+    //查看博客ID对应的HTML
+    String selectHtml(String blogId);
+
 }
