@@ -1,8 +1,6 @@
 package com.karat.cn.blog_backstage.demo;
 
-import com.karat.cn.blog_backstage.bean.Author;
 import com.karat.cn.blog_backstage.bean.User;
-import com.karat.cn.blog_backstage.dao.AuthorDao;
 import com.karat.cn.blog_backstage.dao.UserDao;
 import com.karat.cn.blog_backstage.util.RedisKey;
 import org.junit.Test;
@@ -14,31 +12,30 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AuthorDemo {
+public class UserDemo {
 
-
-    @Autowired
-    AuthorDao authorDao;
-    @Autowired
-    UserDao userDao;
     @Autowired
     RedisTemplate redisTemplate;
+    @Autowired
+    UserDao userDao;
 
-
-    @Test
-    public void selectAll(){
-        System.out.println(authorDao.select());
-    }
 
     @Test
     public void add(){
-        Author author=new Author("不埋怨谁，不嘲笑谁，也不羡慕谁，阳光下灿烂，风雨中奔跑，做自己的梦，走自己的路。","lijing13949080725@163.com","21Karat","https://github.com/21karat","https://www.cnblogs.com/LJing21/");
-        authorDao.add(author);
+        redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5TNQdOxTi6x6nUAgAJKcMqg");
+        redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5Vj1FJEMI_YPMmifOXKFTYQ");
+        redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5aCGyNGn5JLRbJf7oVQpho0");
+        redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5bpAsmMy8KWX_bH3_fn3iVo");
+        redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5eDkeJL-PVJE5feBH9d5ou4");
     }
+
+
+
 
     @Test
     public void select(){
-
         System.out.println((User)redisTemplate.opsForValue().get(RedisKey.USER+"oaXaZ5Vj1FJEMI_YPMmifOXKFTYQ"));
     }
+
+
 }
