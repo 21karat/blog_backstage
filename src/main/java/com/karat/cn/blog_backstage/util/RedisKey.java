@@ -13,7 +13,7 @@ public class RedisKey {
     //python标签（+博客ID）
     public static final String PYTHON="python";
     //web标签（+博客ID）
-    public static final String WEB="web";
+    public static final String WEB= "html";
     //其它标签（+博客ID）
     public static final String OTHER="other";
     //热门标签（+博客ID）

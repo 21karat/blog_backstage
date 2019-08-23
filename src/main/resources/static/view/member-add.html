@@ -7,10 +7,10 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <link rel="stylesheet" href="../static/css/font.css">
-        <link rel="stylesheet" href="../static/css/xadmin.css">
-        <script type="text/javascript" src="../static/lib/layui/layui.js" charset="utf-8"></script>
-        <script type="text/javascript" src="../static/js/xadmin.js"></script>
+        <link rel="stylesheet" href="../css/font.css">
+        <link rel="stylesheet" href="../css/xadmin.css">
+        <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/xadmin.js"></script>
     </head>
     <body>
         <div class="layui-fluid">
@@ -63,7 +63,7 @@
 					$.ajax({
 					    type: 'POST',
 					    dataType: 'json',
-					    url: 'http://localhost:8080/back/addUser',
+					    url: 'insertUser',
 					    data: {
 					        id: data.field.id,
 					        name:data.field.name,
@@ -75,7 +75,7 @@
 							if(msg.users.length>0){
 								parent.layer.msg('添加成功!', { icon: 1, time: 1000 }, function () {
 									parent.$('.btn-refresh').click();
-									//parent.location.reload(); //刷新父页面
+									parent.location.reload(); //刷新父页面
 									var index = parent.layer.getFrameIndex(window.name);
 									parent.layer.close(index);
 								});
