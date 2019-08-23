@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserDemo {
@@ -29,12 +31,24 @@ public class UserDemo {
         redisTemplate.opsForList().leftPush(RedisKey.USERLIST,"oaXaZ5eDkeJL-PVJE5feBH9d5ou4");
     }
 
-
+    @Test
+    public void del(){
+        userDao.delUser("1111");
+    }
 
 
     @Test
     public void select(){
-        System.out.println((User)redisTemplate.opsForValue().get(RedisKey.USER+"oaXaZ5Vj1FJEMI_YPMmifOXKFTYQ"));
+        List<User> users=userDao.selectAll();
+        users.forEach(i->{
+            System.out.println(i.toString());
+        });
+        //System.out.println((User)redisTemplate.opsForValue().get(RedisKey.USER+"oaXaZ5Vj1FJEMI_YPMmifOXKFTYQ"));
+
+        /*redisTemplate.opsForList().remove(RedisKey.USERLIST, -1, "123");
+        redisTemplate.opsForList().range(RedisKey.USERLIST,0,-1).forEach(i->{
+            System.out.println(i);
+        });*/
     }
 
 

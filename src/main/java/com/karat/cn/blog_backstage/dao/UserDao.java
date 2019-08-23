@@ -12,5 +12,7 @@ public interface UserDao {
     User selectById(String openId);
     //查看所有用户信息
     List<User> selectAll();
+    //删除用户信息
+    void delUser(String openId);
 
 }

@@ -30,10 +30,16 @@ public class UserDaoImpl implements UserDao {
         List<User> users=new ArrayList<>();
         if(redisTemplate.hasKey(RedisKey.USERLIST)){
             redisTemplate.opsForList().range(RedisKey.USERLIST,0,-1).forEach(i->{
-                users.add((User)redisTemplate.opsForValue().get(RedisKey.USER+i));
+                if(redisTemplate.hasKey(RedisKey.USER+i)){
+                    users.add((User)redisTemplate.opsForValue().get(RedisKey.USER+i));
+                }
             });
         }
         return users;
    }
-
+    //删除用户信息
+    public void delUser(String openId){
+        redisTemplate.delete(RedisKey.USER+openId);
+        redisTemplate.opsForList().remove(RedisKey.USERLIST, -1, openId);
+    }
 }
