@@ -20,7 +20,7 @@ public class FriendDemo {
 
     @Test
     public void add(){
-        //Friend friend=new Friend(IdUtil.getOrderIdByTime(),"罗凯","www.luokaiii.cn");
+        //friend friend=new friend(IdUtil.getOrderIdByTime(),"罗凯","www.luokaiii.cn");
         Friend friend=new Friend(IdUtil.getOrderIdByTime(),"墨尔本科","https://me.csdn.net/weixin_39554569");
         friendDao.add(friend);
     }

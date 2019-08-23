@@ -51,7 +51,7 @@ public class Friend implements Serializable {
 
     @Override
     public String toString() {
-        return "Friend{" +
+        return "friend{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", adrr='" + adrr + '\'' +
