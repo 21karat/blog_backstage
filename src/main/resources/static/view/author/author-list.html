@@ -53,23 +53,16 @@
                             <table class="layui-table layui-form">
                                 <thead>
                                   <tr>
-                                    <th>
-                                      <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
-                                    </th>
                                     <th>标题内容</th>
                                     <th>邮箱地址</th>
                                     <th>公众号名称</th>
                                     <th>git地址</th>
                                     <th>博客园地址</th>
 
-                                    <th>状态</th>
                                     <th>操作</th></tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td>
-                                      <input type="checkbox" name="id" value="1"   lay-skin="primary"> 
-                                    </td>
 
                                     <td>{{sites.title}}</td>
                                     <td>{{sites.mailbox}}</td>
@@ -78,9 +71,6 @@
                                     <td>{{sites.blogGarden}}</td>
 
 
-
-                                    <td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
                                       <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                                         <i class="layui-icon">&#xe601;</i>

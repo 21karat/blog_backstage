@@ -7,6 +7,7 @@ import com.karat.cn.blog_backstage.bean.User;
 import com.karat.cn.blog_backstage.dao.*;
 import com.karat.cn.blog_backstage.util.PageUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
+import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,4 +108,13 @@ public class ViewController {
         return vo;
     }
 
+    /**
+     * 数据统计
+     * @return
+     */
+    @RequestMapping("getNum")
+    @ResponseBody
+    public ResponseNumVo getNum(){
+        return new ResponseNumVo(blogDao.selectAll().size(),userDao.selectAll().size(),199, 5,friendDao.selectAll().size());
+    }
 }
