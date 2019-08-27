@@ -16,7 +16,7 @@ import weixin.popular.api.SnsAPI;
 import weixin.popular.bean.sns.Jscode2sessionResult;
 
 @RestController
-@Api("接口")
+@Api("小程序接口")
 public class KaratController {
 
     @Autowired

@@ -10,6 +10,7 @@ import com.karat.cn.blog_backstage.util.RedisKey;
 import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("view")
+@Api("后台接口")
 public class ViewController {
 
 
