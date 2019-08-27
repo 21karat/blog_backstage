@@ -27,19 +27,29 @@
                         <!-- 二级菜单 -->
                         <dd>
                             <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
-                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>
+                                <i class="iconfont">&#xe6a2;</i>弹出最大化
+                            </a>
+                        </dd>
                         <dd>
                             <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">
-                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>
+                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高
+                            </a>
+                        </dd>
                         <dd>
                             <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
-                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>
+                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高
+                            </a>
+                        </dd>
                         <dd>
                             <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
+                                <i class="iconfont">&#xe6b8;</i>在tab打开
+                            </a>
+                        </dd>
                         <dd>
                             <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
+                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新
+                            </a>
+                        </dd>
                     </dl>
                 </li>
             </ul>
@@ -48,16 +58,12 @@
                     <a href="javascript:;">admin</a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
-                        <dd>
-                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
-                        <dd>
-                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-                        <dd>
-                            <a href="./login.html">退出</a></dd>
+                        <dd><a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                        <dd><a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                        <dd><a href="./login.html">退出</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item to-index">
-                    <a href="/">前台首页</a></li>
+                <li class="layui-nav-item to-index"><a href="welcome/welcome.html">前台首页</a></li>
             </ul>
         </div>
         <!-- 顶部结束 -->
@@ -74,13 +80,13 @@
                         <ul class="sub-menu">
                             <li>
                                 <a onclick="xadmin.add_tab('统计页面','welcome/welcome1.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>统计页面</cite></a>
+                                    <i class="iconfont">&#xe6a7;</i><cite>统计页面</cite>
+                                </a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('会员列表(静态表格)','member/member-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表(静态表格)</cite></a>
+                                    <i class="iconfont">&#xe6a7;</i><cite>会员列表(静态表格)</cite>
+                                </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
@@ -90,13 +96,13 @@
                                 <ul class="sub-menu">
                                     <li>
                                         <a onclick="xadmin.add_tab('会员删除','member/member-del.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>会员删除</cite></a>
+                                            <i class="iconfont">&#xe6a7;</i><cite>会员删除</cite>
+                                        </a>
                                     </li>
                                     <li>
                                         <a onclick="xadmin.add_tab('等级管理','member/member-list1.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>等级管理</cite></a>
+                                            <i class="iconfont">&#xe6a7;</i><cite>等级管理</cite>
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -106,17 +112,18 @@
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="订单管理">&#xe723;</i>
                             <cite>订单管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('订单列表','order/order-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>订单列表</cite></a>
+                                <a onclick="xadmin.add_tab('订单列表','order/order-list.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>订单列表</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('订单列表1','order/order-list1.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>订单列表1</cite></a>
+                                <a onclick="xadmin.add_tab('订单列表1','order/order-list1.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>订单列表1</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -124,22 +131,23 @@
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i>
                             <cite>分类管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('多级分类','friend/friend-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>友链</cite></a>
+                                <a onclick="xadmin.add_tab('多级分类','friend/friend-list.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>友链</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('多级分类','author/author-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>关于我</cite></a>
+                                <a onclick="xadmin.add_tab('多级分类','author/author-list.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>关于我</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('多级分类','tag/tag-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>标签</cite></a>
+                                <a onclick="xadmin.add_tab('多级分类','tag/tag-list.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>标签</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -148,27 +156,28 @@
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
                             <cite>管理员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>管理员列表</cite></a>
+                                <a onclick="xadmin.add_tab('管理员列表','admin-list.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>管理员列表</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>角色管理</cite></a>
+                                <a onclick="xadmin.add_tab('角色管理','admin-role.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>角色管理</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限分类</cite></a>
+                                <a onclick="xadmin.add_tab('权限分类','admin-cate.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>权限分类</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限管理</cite></a>
+                                <a onclick="xadmin.add_tab('权限管理','admin-rule.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>权限管理</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -177,27 +186,28 @@
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="其它页面">&#xe6b4;</i>
                             <cite>其它页面</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
-                                <a href="login.html" target="_blank">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>登录页面</cite></a>
+                                <a href="login.html" target="_blank"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>登录页面</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('错误页面','error.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>错误页面</cite></a>
+                                <a onclick="xadmin.add_tab('错误页面','error.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>错误页面</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('示例页面','demo.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>示例页面</cite></a>
+                                <a onclick="xadmin.add_tab('示例页面','demo.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>示例页面</cite>
+                                </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('更新日志','log.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>更新日志</cite></a>
+                                <a onclick="xadmin.add_tab('更新日志','log.html')"><i class="iconfont">&#xe6a7;</i>
+                                    <cite>更新日志</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -209,14 +219,13 @@
         <!-- 右侧主体开始 -->
         <div class="page-content">
             <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
-                <ul class="layui-tab-title">
-                    <li class="home">
-                        <i class="layui-icon">&#xe68e;</i>我的桌面</li></ul>
+                <ul class="layui-tab-title"><li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li></ul>
                 <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
                     <dl>
                         <dd data-type="this">关闭当前</dd>
                         <dd data-type="other">关闭其它</dd>
-                        <dd data-type="all">关闭全部</dd></dl>
+                        <dd data-type="all">关闭全部</dd>
+                    </dl>
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">

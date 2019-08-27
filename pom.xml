@@ -67,7 +67,7 @@
             <version>2.8.5</version>
         </dependency>
 
-        <!--监控-->
+        <!--springboot自带监控模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

@@ -67,11 +67,11 @@
                 </div>
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
-                        <div class="layui-card-header">下载
+                        <div class="layui-card-header">阅读量
                             <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
                         <div class="layui-card-body  ">
-                            <p class="layuiadmin-big-font">33,555</p>
-                            <p>新下载
+                            <p class="layuiadmin-big-font">666</p>
+                            <p>增长
                                 <span class="layuiadmin-span-color">10%
                                     <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
                             </p>
@@ -80,11 +80,11 @@
                 </div>
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
-                        <div class="layui-card-header">下载
+                        <div class="layui-card-header">喜欢人数
                             <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
                         <div class="layui-card-body ">
-                            <p class="layuiadmin-big-font">33,555</p>
-                            <p>新下载
+                            <p class="layuiadmin-big-font">666</p>
+                            <p>增长
                                 <span class="layuiadmin-span-color">10%
                                     <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
                             </p>
@@ -93,30 +93,19 @@
                 </div>
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
-                        <div class="layui-card-header">下载
+                        <div class="layui-card-header">点赞数
                             <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
                         <div class="layui-card-body ">
-                            <p class="layuiadmin-big-font">33,555</p>
-                            <p>新下载
+                            <p class="layuiadmin-big-font">666</p>
+                            <p>增长
                                 <span class="layuiadmin-span-color">10%
                                     <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">下载
-                            <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
-                        <div class="layui-card-body ">
-                            <p class="layuiadmin-big-font">33,555</p>
-                            <p>新下载
-                                <span class="layuiadmin-span-color">10%
-                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+
+
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-header">系统信息</div>
@@ -126,12 +115,16 @@
                                     <tr><th>当前版本</th><td>{{info.version}}</td></tr>
                                     <tr><th>服务器地址</th><td>{{info.name}}</td></tr>
                                     <tr><th>磁盘运行状态</th><td>{{diskSpace.status}}</td></tr>
-                                    <tr><th>总磁盘空间</th><td>{{diskSpace.details.total}}B</td></tr>
-                                    <tr><th>剩余的磁盘空间</th><td>{{diskSpace.details.free}}B</td></tr>
-                                    <tr><th>最小阈值</th><td>{{diskSpace.details.threshold}}B</td></tr>
+                                    <tr><th>总磁盘空间</th><td>{{diskSpace.details.total}}</td></tr>
+                                    <tr><th>剩余的磁盘空间</th><td>{{diskSpace.details.free}}</td></tr>
+                                    <tr><th>最小阈值</th><td>{{diskSpace.details.threshold}}</td></tr>
                                     <tr><th>操作系统</th><td>Linux</td></tr>
                                     <tr><th>Redis版本</th><td>{{redis.details.version}}</td></tr>
                                     <tr><th>Redis运行状态</th><td>{{redis.status}}</td></tr>
+                                    <tr><th>监控</th><td>服务器度量数据监控</td></tr>
+                                    <tr><th>服务器CPU核心数</th><td>{{cpu}}</td></tr>
+                                    <tr><th>服务器CPU使用率</th><td>{{cpuUser}}</td></tr>
+                                    <tr><th>Tomcat服务总请求数</th><td>{{tomcatNum}}</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -176,6 +169,9 @@
             redis:{},
             diskSpace:{},//磁盘运行状态
             num:{},
+            cpu:'',//服务器CPU核心数
+            cpuUser:'',//服务器CPU使用率
+            tomcatNum:'',//Tomcat服务总请求数
             date: new Date()
         },
         mounted () {
@@ -196,12 +192,12 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/info',
+            url: 'https://lj.luokaiii.cn/actuator/info',
             success: function (msg) {
                 vm.info = msg.app;
             },
             error:function (msg) {
-                alert("失败");
+                layer.msg('当前版本以及服务器地址error!', { icon: 1, time: 1000 });
             }
         });
     }
@@ -210,13 +206,13 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/health',
+            url: 'https://lj.luokaiii.cn/actuator/health',
             success: function (msg) {
                 vm.redis=msg.details.redis;
                 vm.diskSpace=msg.details.diskSpace;
             },
             error:function (msg) {
-                alert("失败");
+                layer.msg('查看应用程序的整体健康状态error!', { icon: 1, time: 1000 });
             }
         });
     }
@@ -230,12 +226,56 @@
                 vm.num=msg;
             },
             error:function (msg) {
-                alert("失败");
+                layer.msg('数据统计error!', { icon: 1, time: 1000 });
+            }
+        });
+    }
+    //服务器CPU核心数
+   function getCpu(){
+       $.ajax({
+           type: 'GET',
+           dataType: 'json',
+           url: 'https://lj.luokaiii.cn/actuator/metrics/system.cpu.count',
+           success: function (msg) {
+               vm.cpu=msg.measurements[0].value;
+           },
+           error:function (msg) {
+               layer.msg('服务器CPU核心数error!', { icon: 1, time: 1000 });
+           }
+       });
+   }
+    //服务器CPU使用率
+    function getCpuUser(){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: 'https://lj.luokaiii.cn/actuator/metrics/process.cpu.usage',
+            success: function (msg) {
+                vm.cpuUser=msg.measurements[0].value;
+            },
+            error:function (msg) {
+                layer.msg('服务器CPU使用率error!', { icon: 1, time: 1000 });
+            }
+        });
+    }
+    //Tomcat服务总请求数
+    function getTomcatNum(){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: 'https://lj.luokaiii.cn/actuator/metrics/tomcat.global.request',
+            success: function (msg) {
+                vm.tomcatNum=msg.measurements[0].value;
+            },
+            error:function (msg) {
+                layer.msg('Tomcat服务总请求数error!', { icon: 1, time: 1000 });
             }
         });
     }
     getInfo();
     getHealth();
     getNum();
-
+    getCpu();
+    getCpuUser();
+    getTomcatNum();
 </script>
