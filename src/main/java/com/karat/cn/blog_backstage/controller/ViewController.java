@@ -1,6 +1,5 @@
 package com.karat.cn.blog_backstage.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.karat.cn.blog_backstage.bean.Author;
 import com.karat.cn.blog_backstage.bean.Friend;
 import com.karat.cn.blog_backstage.bean.User;
@@ -52,12 +51,13 @@ public class ViewController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public ResponseLogin lo(String username,String password)  {
+    public ResponseLogin login(String username,String password)  {
+        System.out.println("登陆开始");
         //将用户名与密码存入令牌中
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             //将用户名密码生成的token令牌传入login方法中
-            SecurityUtils.getSubject().login(token);
+            //SecurityUtils.getSubject().login(token);
             ResponseLogin msg=new ResponseLogin("login success");
             return msg;
         } catch ( UnknownAccountException uae ) {

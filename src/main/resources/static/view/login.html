@@ -10,8 +10,12 @@
     <link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/xadmin.css">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+
 </head>
 <body class="login-bg">
     <div class="login layui-anim layui-anim-up">
@@ -30,9 +34,11 @@
 </body>
   <script type="text/javascript">
           $("#btn_log").click(function() {
+              var layer = layui.layer;
+                alert("123");
                 $.ajax({
                    type:"post",
-                   url:"login",
+                   url:"/view/login",
                    data:$("#formdata").serializeArray(),
                    dataType:"json",//返回的
                    success:function(data) {
@@ -43,7 +49,8 @@
                        }
                    },
                    error:function(msg) {
-                       layer.msg(msg, { icon: 1, time: 1000 });
+                       alert(msg);
+                       layer.msg(msg.valueOf().toString(), { icon: 1, time: 1000 });
                    }
               });
           });

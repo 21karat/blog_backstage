@@ -5,9 +5,12 @@ import com.karat.cn.blog_backstage.bean.pojo.ShiroRole;
 import com.karat.cn.blog_backstage.bean.pojo.ShiroUser;
 import com.karat.cn.blog_backstage.bean.pojo.User_role;
 import com.karat.cn.blog_backstage.service.*;
-import com.karat.cn.blog_backstage.service.reposition.RolePermissionReposition;
 import com.karat.cn.blog_backstage.service.reposition.ShiroUserReposition;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -108,7 +111,8 @@ public class ShiroUserServiceImpl implements ShiroUserService {
      * @return
      */
     public List<ShiroUser> getAllShiroUser(){
-        return shiroUserReposition.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC,"id");    //依据id降序排列
+        return shiroUserReposition.findAll(sort);
     }
 
     /**
@@ -118,6 +122,8 @@ public class ShiroUserServiceImpl implements ShiroUserService {
      * @return
      */
     public List<ShiroUser> getPageShiroUser(int pagenum, int pagesize){
+        Pageable pageable = new PageRequest(pagenum,pagesize);    //页码从0开始
+        Page<ShiroUser> users = shiroUserReposition.findAll(pageable);
         return null;
     }
     /**
