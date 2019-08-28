@@ -1,4 +1,4 @@
-package com.karat.cn.blog_backstage.test;
+package com.karat.cn.blog_backstage.redis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,14 +8,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Redis {
+public class RedisTest {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;

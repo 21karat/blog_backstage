@@ -1,7 +1,7 @@
 package com.karat.cn.blog_backstage.config;
 
 import com.karat.cn.blog_backstage.bean.pojo.ShiroUser;
-import com.karat.cn.blog_backstage.service.UserService;
+import com.karat.cn.blog_backstage.service.ShiroUserService;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.shiro.authc.*;
@@ -9,14 +9,17 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.subject.PrincipalCollection;
 
-/**
+/*
+*
  * shiro核心配置
- */
+*/
+
+
 public class MyShiroRealm extends AuthorizingRealm {
 
 
     @Autowired
-    private UserService userService;
+    private ShiroUserService userService;
 
     //权限信息，包括角色以及权限
     @Override
@@ -30,7 +33,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         return authorizationInfo;
     }
 
-    /*主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。*/
+/*主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。*/
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {

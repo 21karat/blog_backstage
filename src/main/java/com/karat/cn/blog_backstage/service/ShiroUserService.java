@@ -1,40 +1,25 @@
 package com.karat.cn.blog_backstage.service;
 
-import com.karat.cn.blog_backstage.bean.User;
+
 import com.karat.cn.blog_backstage.bean.pojo.ShiroUser;
 
 import java.util.List;
 import java.util.Set;
 
-public interface UserService {
+public interface ShiroUserService {
 
     /**
      * 创建用户
      * @param user
      */
-    ShiroUser createUser(ShiroUser user);
+    ShiroUser createShiroUser(ShiroUser user);
 
     /**
      * 修改密码
-     * @param userId
+     * @param id
      * @param newPassword
      */
-    void changePassword(int userId, String newPassword);
-
-    /**
-     * 添加用户-角色关系
-     * @param userId
-     * @param roleIds
-     */
-    void correlationRoles(int userId, int... roleIds);
-
-    /**
-     * 移除用户-角色关系
-     * @param userId
-     * @param roleIds
-     */
-    void uncorrelationRoles(int userId, int... roleIds);
-
+    void changePassword(int id, String newPassword);
     /**
      * 根据用户名查找用户
      * @param username
@@ -60,7 +45,7 @@ public interface UserService {
      * 查看所有用户
      * @return
      */
-    List<User> getallusers();
+    List<ShiroUser> getAllShiroUser();
     
     /**
      * 分页查所有用户
@@ -68,27 +53,23 @@ public interface UserService {
      * @param pagesize
      * @return
      */
-    List<ShiroUser> getpageusers(int pagenum, int pagesize);
+    List<ShiroUser> getPageShiroUser(int pagenum, int pagesize);
     /**
      * 更新用户信息
      * @param u
      * @return
      */
-    ShiroUser updateuser(ShiroUser u);
+    ShiroUser updateShiroUser(ShiroUser u);
     /**
      * 删除用户信息
-     * @param userid
+     * @param id
      */
-    void deleteuser(int userid);
+    void deleteShiroUser(int id);
     /**
      * 根据id查
-     * @param uid
+     * @param id
      * @return
      */
-	ShiroUser getUser(int uid);
-	/**
-	 * 删除用户角色关系信息
-	 * @param uid
-	 */
-	void deleteuserroles(int uid);
+	ShiroUser getShiroUser(int id);
+
 }

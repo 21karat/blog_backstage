@@ -1,4 +1,4 @@
-package com.karat.cn.blog_backstage.test;
+package com.karat.cn.blog_backstage.redis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

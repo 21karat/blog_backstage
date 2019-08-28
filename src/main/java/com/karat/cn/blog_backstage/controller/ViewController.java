@@ -7,10 +7,16 @@ import com.karat.cn.blog_backstage.bean.User;
 import com.karat.cn.blog_backstage.dao.*;
 import com.karat.cn.blog_backstage.util.PageUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
+import com.karat.cn.blog_backstage.vo.view.ResponseLogin;
 import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
 import io.swagger.annotations.Api;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +44,35 @@ public class ViewController {
     @Autowired
     AuthorDao authorDao;
 
-
+    /**
+     * 后台登陆
+     * @param username
+     * @param password
+     * @return
+     */
     @RequestMapping("/login")
     @ResponseBody
-    public String lo(String username,String password)  {
-        System.out.println(username+password);
-        return JSONObject.toJSONString("123456");
+    public ResponseLogin lo(String username,String password)  {
+        //将用户名与密码存入令牌中
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        try {
+            //将用户名密码生成的token令牌传入login方法中
+            SecurityUtils.getSubject().login(token);
+            ResponseLogin msg=new ResponseLogin("login success");
+            return msg;
+        } catch ( UnknownAccountException uae ) {
+            ResponseLogin msg=new ResponseLogin("error username");
+            return msg;
+        } catch ( IncorrectCredentialsException ice ) {
+            ResponseLogin msg=new ResponseLogin("error password");
+            return msg;
+        } catch ( LockedAccountException lae ) {
+            ResponseLogin msg=new ResponseLogin("locked user");
+            return msg;
+        }
     }
+
+
 
     @RequestMapping("/getUserByPage")
     @ResponseBody

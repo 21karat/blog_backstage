@@ -1,4 +1,4 @@
-package com.karat.cn.blog_backstage.demo;
+package com.karat.cn.blog_backstage.wx;
 
 import com.karat.cn.blog_backstage.bean.Friend;
 import com.karat.cn.blog_backstage.dao.FriendDao;

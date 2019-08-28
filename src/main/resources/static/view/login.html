@@ -36,10 +36,14 @@
                    data:$("#formdata").serializeArray(),
                    dataType:"json",//返回的
                    success:function(data) {
-                      window.location.href="index.html";        
+                       if(data.state=="login success"){
+                           window.location.href="index.html";
+                       }else{
+                           layer.msg(data.state, { icon: 1, time: 1000 });
+                       }
                    },
                    error:function(msg) {
-                       cosole.log(msg);
+                       layer.msg(msg, { icon: 1, time: 1000 });
                    }
               });
           });

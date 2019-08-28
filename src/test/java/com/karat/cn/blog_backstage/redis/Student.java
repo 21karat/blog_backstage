@@ -1,4 +1,4 @@
-package com.karat.cn.blog_backstage.test;
+package com.karat.cn.blog_backstage.redis;
 
 import lombok.Data;
 

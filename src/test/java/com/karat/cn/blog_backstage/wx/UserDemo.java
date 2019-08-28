@@ -1,4 +1,4 @@
-package com.karat.cn.blog_backstage.demo;
+package com.karat.cn.blog_backstage.wx;
 
 import com.karat.cn.blog_backstage.bean.User;
 import com.karat.cn.blog_backstage.dao.UserDao;

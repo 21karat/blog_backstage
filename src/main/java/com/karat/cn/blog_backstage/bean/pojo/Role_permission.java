@@ -1,15 +1,24 @@
 package com.karat.cn.blog_backstage.bean.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * 角色权限绑定表
  */
+@Entity
+@Table(name="sys_roles_permissions")
 public class Role_permission {
 
-    //自增ID
+    @Id
     int id;
     //角色（角色ID）
+    @Column(name="role_id")
     int roleId;
     //权限(权限ID)
+    @Column(name="permission_id")
     int permissionId;
 
 
