@@ -31,7 +31,7 @@ public class ShiroUserTest {
 
     @Test
     public void selectByName(){
-        System.out.println(shiroUserService.findByUsername("ddd"));
+        System.out.println(shiroUserService.findByUsername("AAA").toString());
     }
 
     @Test

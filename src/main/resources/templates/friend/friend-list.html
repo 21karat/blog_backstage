@@ -6,13 +6,13 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <link rel="stylesheet" href="../../css/font.css">
-		<link rel="stylesheet" href="../../lib/layui/css/layui.css">
+        <link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/lib/layui/css/layui.css">
 
-        <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+        <script src="../../static/lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript" src="../../js/xadmin.js"></script>
-        <script type="text/javascript" src="../../js/vue.min.js"></script>
+        <script type="text/javascript" src="../../static/js/xadmin.js"></script>
+        <script type="text/javascript" src="../../static/js/vue.min.js"></script>
     </head>
     <body>
         <div class="x-nav">
@@ -29,43 +29,44 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card" id="tab">
-
+                        <div class="layui-card-header">
+                            <button class="layui-btn" onclick="xadmin.open('添加用户','',600,400)"><i class="layui-icon"></i>添加</button>
+                        </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
                                 <thead>
                                   <tr>
-                                    <th>标题内容</th>
-                                    <th>邮箱地址</th>
-                                    <th>公众号名称</th>
-                                    <th>git地址</th>
-                                    <th>博客园地址</th>
-
-                                    <th>操作</th></tr>
+                                    <th>
+                                      <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
+                                    </th>
+                                    <th>ID</th>
+                                    <th>友链博客名称</th>
+                                    <th>友链地址</th>
+                                    <th>操作</th>
+                                  </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                  <tr v-for="site in sites" :key="site.openId">
+                                    <td>
+                                      <input type="checkbox" name="id" value="1"   lay-skin="primary"> 
+                                    </td>
 
-                                    <td>{{sites.title}}</td>
-                                    <td>{{sites.mailbox}}</td>
-                                    <td>{{sites.publicNumber}}</td>
-                                    <td>{{sites.gitHub}}</td>
-                                    <td>{{sites.blogGarden}}</td>
-
+                                    <td>{{site.id}}</td>
+                                    <td>{{site.name}}</td>
+                                    <td>{{site.adrr}}</td>
 
                                     <td class="td-manage">
-                                      <a title="编辑"  onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
+                                      <a title="编辑"  onclick="xadmin.open('编辑','',600,400)" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
+                                      </a>
+                                      <a title="删除" @click="" href="javascript:;">
+                                        <i class="layui-icon">&#xe640;</i>
                                       </a>
                                     </td>
                                   </tr>
                                      
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="layui-card-body ">
-                        	<div class="page" id="paging">
-                        	
-                        	</div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
         el: '#tab',
         data: {
 			//模拟假数据
-            sites:{},
+            sites: [],
         },
 		methods: {
 			/*用户-删除*/
@@ -87,7 +88,7 @@
 					$.ajax({
 					    type: 'POST',
 					    dataType: 'json',
-					    url: 'view/delUser',
+					    url: '/view/delUser',
 					    data: {
 					        openId: openId
 					    },
@@ -113,7 +114,7 @@
 		 $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: '/view/selectAuthor',
+            url: '/view/getFrends',
             success: function (msg) {
 			  vm.sites = msg;
             },
@@ -148,6 +149,8 @@
               
           });
       }
+
+   
 
     </script>
 </html>

@@ -4,8 +4,14 @@ import com.karat.cn.blog_backstage.bean.Author;
 import com.karat.cn.blog_backstage.bean.Friend;
 import com.karat.cn.blog_backstage.bean.User;
 import com.karat.cn.blog_backstage.dao.*;
+import com.karat.cn.blog_backstage.service.PermissionService;
+import com.karat.cn.blog_backstage.service.ShiroRoleService;
+import com.karat.cn.blog_backstage.service.ShiroUserService;
 import com.karat.cn.blog_backstage.util.PageUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
+import com.karat.cn.blog_backstage.vo.shiro.PermissionVo;
+import com.karat.cn.blog_backstage.vo.shiro.ShiroRoleVo;
+import com.karat.cn.blog_backstage.vo.shiro.ShiroUserVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseLogin;
 import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
@@ -16,16 +22,19 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("view")
+@RequestMapping("/view")
 @Api("后台接口")
 public class ViewController {
 
@@ -43,6 +52,20 @@ public class ViewController {
     @Autowired
     AuthorDao authorDao;
 
+    /*=============================================*/
+    @Autowired
+    ShiroUserService shiroUserService;
+    @Autowired
+    ShiroRoleService shiroRoleService;
+    @Autowired
+    PermissionService permissionService;
+    /*=============================================*/
+
+    @RequestMapping("/ok")
+    public String ok()  {
+        return "login";
+    }
+
     /**
      * 后台登陆
      * @param username
@@ -51,13 +74,13 @@ public class ViewController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public ResponseLogin login(String username,String password)  {
+    public ResponseLogin login(String username, String password)  {
         System.out.println("登陆开始");
         //将用户名与密码存入令牌中
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             //将用户名密码生成的token令牌传入login方法中
-            //SecurityUtils.getSubject().login(token);
+            SecurityUtils.getSubject().login(token);
             ResponseLogin msg=new ResponseLogin("login success");
             return msg;
         } catch ( UnknownAccountException uae ) {
@@ -72,7 +95,25 @@ public class ViewController {
         }
     }
 
+    /**
+     * 退出
+     * @return
+     */
+    @RequestMapping(value="logout",method = RequestMethod.GET)
+    public String logout(){
+        //subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
+        //即使session托管给了redis ，redis有很多个浏览器的session
+        //只要调用退出方法，此subject的、此浏览器的session就没了
+        try {
+            //退出
+            SecurityUtils.getSubject().logout();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return "login";
 
+    }
+    /*==================================================================================*/
 
     @RequestMapping("/getUserByPage")
     @ResponseBody
@@ -147,4 +188,45 @@ public class ViewController {
     public ResponseNumVo getNum(){
         return new ResponseNumVo(blogDao.selectAll().size(),userDao.selectAll().size(),199, 5,friendDao.selectAll().size());
     }
+
+    /*=======================================权限===========================================*/
+
+
+    @RequestMapping("selectShiroUser")
+    @ResponseBody
+    @RequiresPermissions("menu:create")//权限管理;
+    public ShiroUserVo selectShiroUser(){
+        return new ShiroUserVo(200,"ok",shiroUserService.getAllShiroUser());
+    }
+
+    @RequestMapping("selectShiroRole")
+    @ResponseBody
+    @RequiresPermissions("menu:create")//权限管理;
+    public ShiroRoleVo selectShiroRole(){
+        return new ShiroRoleVo(200,"ok",shiroRoleService.getShiroRoles());
+    }
+
+    @RequestMapping("selectPermission")
+    @ResponseBody
+    @RequiresPermissions("menu:create")//权限管理;
+    public PermissionVo selectPermission(){
+        return new PermissionVo(200,"ok",permissionService.getPermissions());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
