@@ -21,8 +21,7 @@
     <div class="login layui-anim layui-anim-up">
         <div class="message">x-admin2.0-管理登录</div>
         <div id="darkbannerwrap"></div>
-        
-        <form class="layui-form" id="formdata">
+        <form class="layui-form" id="formdata" action="/view/login" method="post">
             <input name="username" placeholder="用户名"  type="text" class="layui-input" >
             <hr class="hr15">
             <input name="password" placeholder="密码"  type="password" class="layui-input">
@@ -32,34 +31,4 @@
         </form>
     </div>
 </body>
-<script type="text/javascript">
-    $("#btn_log").click(function() {
-        var layer = layui.layer;
-        alert("123");
-        $.ajax({
-            type:"post",
-            url:"/view/login",
-            data:$("#formdata").serializeArray(),
-            dataType:"json",//返回的
-            success:function(data) {
-                alert(111);
-                if(data.state=="login success"){
-                    alert(222);
-                    $.ajax({
-                        url : "/html/toIndex",
-                        type : "POST",
-                        contentType:'application/json;charset=UTF-8', //contentType很重要
-                    });
-                    //window.location.href="index.html";
-                }else{
-                    layer.msg(data.state, { icon: 1, time: 1000 });
-                }
-            },
-            error:function(msg) {
-                alert(msg);
-                layer.msg(msg.valueOf().toString(), { icon: 1, time: 1000 });
-            }
-        });
-    });
-</script>
 </html>

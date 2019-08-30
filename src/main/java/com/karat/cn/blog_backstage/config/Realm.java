@@ -27,15 +27,21 @@ public class Realm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         logger.info("---------------------------->授权:");
         //从凭证中获得用户名
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        //String username = (String) SecurityUtils.getSubject().getPrincipal();
+        ShiroUser shiroUser=(ShiroUser)  SecurityUtils.getSubject().getPrincipal();
         //根据用户名查询用户对象
         //ShiroUser user = shiroUserService.findByUsername(username);
         //查询用户拥有的角色
-        Set<String> list = shiroUserService.findRoles(username);
-
+        Set<String> list = shiroUserService.findRoles(shiroUser.getUsername());
+        Set<String> list1 =shiroUserService.findPermissions(shiroUser.getUsername());
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        //添加权限
         list.forEach(i->{
             info.addStringPermission(i);
+        });
+        //添加角色
+        list1.forEach(i->{
+            info.addRole(i);
         });
         return info;
     }

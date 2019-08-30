@@ -23,11 +23,13 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -73,25 +75,25 @@ public class ViewController {
      * @return
      */
     @RequestMapping("/login")
-    @ResponseBody
-    public ResponseLogin login(String username, String password)  {
+    public String login(String username, String password)  {
         System.out.println("登陆开始");
         //将用户名与密码存入令牌中
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
+            Subject subject = SecurityUtils.getSubject();
             //将用户名密码生成的token令牌传入login方法中
-            SecurityUtils.getSubject().login(token);
+            subject.login(token);
             ResponseLogin msg=new ResponseLogin("login success");
-            return msg;
+            return "redirect:/html/toIndex";
         } catch ( UnknownAccountException uae ) {
             ResponseLogin msg=new ResponseLogin("error username");
-            return msg;
+            return "redirect:/html/toError";
         } catch ( IncorrectCredentialsException ice ) {
             ResponseLogin msg=new ResponseLogin("error password");
-            return msg;
+            return "redirect:/html/toError";
         } catch ( LockedAccountException lae ) {
             ResponseLogin msg=new ResponseLogin("locked user");
-            return msg;
+            return "redirect:/html/toError";
         }
     }
 
@@ -99,7 +101,7 @@ public class ViewController {
      * 退出
      * @return
      */
-    @RequestMapping(value="logout",method = RequestMethod.GET)
+    @RequestMapping(value="logout",method = {RequestMethod.POST, RequestMethod.GET})
     public String logout(){
         //subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
         //即使session托管给了redis ，redis有很多个浏览器的session
@@ -148,6 +150,7 @@ public class ViewController {
      */
     @RequestMapping("getFrends")
     @ResponseBody
+    @RequiresPermissions("user:select")//权限管理;
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
@@ -159,6 +162,7 @@ public class ViewController {
      */
     @RequestMapping("selectAuthor")
     @ResponseBody
+    @RequiresPermissions("user:select")//权限管理;
     public Author selectAuthor(){
         return authorDao.select();
     }
@@ -194,21 +198,21 @@ public class ViewController {
 
     @RequestMapping("selectShiroUser")
     @ResponseBody
-    @RequiresPermissions("menu:create")//权限管理;
+    @RequiresPermissions("user:select")//权限管理;
     public ShiroUserVo selectShiroUser(){
         return new ShiroUserVo(200,"ok",shiroUserService.getAllShiroUser());
     }
 
     @RequestMapping("selectShiroRole")
     @ResponseBody
-    @RequiresPermissions("menu:create")//权限管理;
+    @RequiresPermissions("user:select")//权限管理;
     public ShiroRoleVo selectShiroRole(){
         return new ShiroRoleVo(200,"ok",shiroRoleService.getShiroRoles());
     }
 
     @RequestMapping("selectPermission")
     @ResponseBody
-    @RequiresPermissions("menu:create")//权限管理;
+    @RequiresPermissions("user:select")//权限管理;
     public PermissionVo selectPermission(){
         return new PermissionVo(200,"ok",permissionService.getPermissions());
     }

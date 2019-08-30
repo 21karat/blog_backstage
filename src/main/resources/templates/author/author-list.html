@@ -94,11 +94,12 @@
 					    success: function (msg) {
 						  vm.sites = msg;
 						  getUserInfo();
-					      layer.msg('已删除!',{icon:1,time:1000});
+                            var layer = layui.layer;
+                            layer.msg('删除ok!',{icon:1,time:1000});
 					    },
 						error:function (msg) {
-					        alert("失败");
-							layer.msg('删除失败!',{icon:1,time:1000});
+                            var layer = layui.layer;
+                            layer.msg('删除失败!',{icon:1,time:1000});
 					    }
 					});
 			    });
@@ -118,7 +119,8 @@
 			  vm.sites = msg;
             },
 			error:function (msg) {
-                alert("失败");
+                var layer = layui.layer;
+                layer.msg('您没有权限访问!',{icon:1,time:1000});
             }
         });
 	  }
