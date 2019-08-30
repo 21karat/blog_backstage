@@ -5,11 +5,13 @@ import com.karat.cn.blog_backstage.bean.Friend;
 import com.karat.cn.blog_backstage.bean.User;
 import com.karat.cn.blog_backstage.dao.*;
 import com.karat.cn.blog_backstage.service.PermissionService;
+import com.karat.cn.blog_backstage.service.RolePermissionService;
 import com.karat.cn.blog_backstage.service.ShiroRoleService;
 import com.karat.cn.blog_backstage.service.ShiroUserService;
 import com.karat.cn.blog_backstage.util.PageUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
 import com.karat.cn.blog_backstage.vo.shiro.PermissionVo;
+import com.karat.cn.blog_backstage.vo.shiro.RoleVo;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroRoleVo;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroUserVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseLogin;
@@ -33,7 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/view")
@@ -62,6 +66,10 @@ public class ViewController {
     @Autowired
     PermissionService permissionService;
     /*=============================================*/
+    @Autowired
+    RolePermissionService rolePermissionService;
+
+
 
     @RequestMapping("/ok")
     public String ok()  {
@@ -207,7 +215,20 @@ public class ViewController {
     @ResponseBody
     @RequiresPermissions("user:select")//权限管理;
     public ShiroRoleVo selectShiroRole(){
-        return new ShiroRoleVo(200,"ok",shiroRoleService.getShiroRoles());
+        List<RoleVo> shiroRoles=new ArrayList<>();
+        shiroRoleService.getShiroRoles().forEach(i->{
+            RoleVo vo=new RoleVo();
+            vo.setRoleid(i.getRoleid());
+            vo.setRole(i.getRole());
+            vo.setDescription(i.getDescription());
+
+            Set set=new HashSet();
+            rolePermissionService.select(i.getRoleid()).forEach(j->{
+                vo.setRoledes(vo.getRoledes()+"【"+permissionService.getPermissionByid(j.getPermissionId()).getPermission()+"】");
+            });
+            shiroRoles.add(vo);
+        });
+        return new ShiroRoleVo(200,"ok",shiroRoles);
     }
 
     @RequestMapping("selectPermission")

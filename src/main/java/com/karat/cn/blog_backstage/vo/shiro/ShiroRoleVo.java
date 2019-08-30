@@ -10,12 +10,12 @@ public class ShiroRoleVo {
 
     private String msg;
 
-    private List<ShiroRole> shiroRoles;
+    private List<RoleVo> shiroRoles;
 
     public ShiroRoleVo() {
     }
 
-    public ShiroRoleVo(int code, String msg, List<ShiroRole> shiroRoles) {
+    public ShiroRoleVo(int code, String msg, List<RoleVo> shiroRoles) {
         this.code = code;
         this.msg = msg;
         this.shiroRoles = shiroRoles;
@@ -37,11 +37,11 @@ public class ShiroRoleVo {
         this.msg = msg;
     }
 
-    public List<ShiroRole> getShiroRoles() {
+    public List<RoleVo> getShiroRoles() {
         return shiroRoles;
     }
 
-    public void setShiroRoles(List<ShiroRole> shiroRoles) {
+    public void setShiroRoles(List<RoleVo> shiroRoles) {
         this.shiroRoles = shiroRoles;
     }
 }
