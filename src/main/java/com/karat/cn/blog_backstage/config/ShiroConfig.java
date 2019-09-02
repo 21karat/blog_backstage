@@ -40,13 +40,14 @@ public class ShiroConfig {
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/html/toError");
 
-        //filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
     @Bean
     public DefaultWebSecurityManager securityManager() {
+        // 注入自定义的realm;
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager(myRealm());
         return defaultWebSecurityManager;
     }
@@ -69,4 +70,7 @@ public class ShiroConfig {
         Realm myRealm = new Realm();
         return myRealm;
     }
+
+
+
 }

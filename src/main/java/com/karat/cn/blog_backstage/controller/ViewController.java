@@ -14,16 +14,13 @@ import com.karat.cn.blog_backstage.vo.shiro.PermissionVo;
 import com.karat.cn.blog_backstage.vo.shiro.RoleVo;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroRoleVo;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroUserVo;
-import com.karat.cn.blog_backstage.vo.view.ResponseLogin;
 import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +28,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
+/**
+ *  属于user角色@RequiresRoles("user")
+ * 	必须同时属于user和admin角@RequiresRoles({ "user", "admin" })
+ * 	属于user或者admin之一;修改logical为OR 即可@RequiresRoles(value = { "user", "admin"},
+ * 	logical = Logical.OR)
+ */
 @Controller
 @RequestMapping("/view")
 @Api("后台接口")
@@ -70,12 +69,11 @@ public class ViewController {
     RolePermissionService rolePermissionService;
 
 
-
+    // 登录的url
     @RequestMapping("/ok")
     public String ok()  {
         return "login";
     }
-
     /**
      * 后台登陆
      * @param username
@@ -83,26 +81,43 @@ public class ViewController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(String username, String password)  {
+    public String login(String username, String password, Map<String, Object> map) {
         System.out.println("登陆开始");
         //将用户名与密码存入令牌中
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+
+        String msg = "";
         try {
             Subject subject = SecurityUtils.getSubject();
             //将用户名密码生成的token令牌传入login方法中
             subject.login(token);
-            ResponseLogin msg=new ResponseLogin("login success");
             return "redirect:/html/toIndex";
-        } catch ( UnknownAccountException uae ) {
-            ResponseLogin msg=new ResponseLogin("error username");
-            return "redirect:/html/toError";
-        } catch ( IncorrectCredentialsException ice ) {
-            ResponseLogin msg=new ResponseLogin("error password");
-            return "redirect:/html/toError";
-        } catch ( LockedAccountException lae ) {
-            ResponseLogin msg=new ResponseLogin("locked user");
-            return "redirect:/html/toError";
+        } catch (IncorrectCredentialsException e) {
+            msg = "登录密码错误";
+            System.out.println("登录密码错误!!!" + e);
+        } catch (ExcessiveAttemptsException e) {
+            msg = "登录失败次数过多";
+            System.out.println("登录失败次数过多!!!" + e);
+        } catch (LockedAccountException e) {
+            msg = "帐号已被锁定";
+            System.out.println("帐号已被锁定!!!" + e);
+        } catch (DisabledAccountException e) {
+            msg = "帐号已被禁用";
+            System.out.println("帐号已被禁用!!!" + e);
+        } catch (ExpiredCredentialsException e) {
+            msg = "帐号已过期";
+            System.out.println("帐号已过期!!!" + e);
+        } catch (UnknownAccountException e) {
+            msg = "帐号不存在";
+            System.out.println("帐号不存在!!!" + e);
+        } catch (UnauthorizedException e) {
+            msg = "您没有得到相应的授权！";
+            System.out.println("您没有得到相应的授权！" + e);
+        } catch (Exception e) {
+            System.out.println("出错！！！" + e);
         }
+        map.put("msg", msg);
+        return "login";
     }
 
     /**
