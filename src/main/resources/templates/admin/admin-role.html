@@ -108,6 +108,7 @@
                     vm.roles = msg.shiroRoles;
                 },
                 error:function (msg) {
+                    alert(msg.toString());
                     var layer = layui.layer;
                     layer.msg('您没有权限访问!', { icon: 1, time: 1000 });
                 }

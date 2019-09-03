@@ -142,7 +142,6 @@ public class ViewController {
 
     @RequestMapping("/getUserByPage")
     @ResponseBody
-    @RequiresRoles("user")
     public ResponseUserVo getUserByPage(int limit,int curr)  {
         System.out.println("每页大小："+limit+"当前页:"+curr);
         List<User> users=userDao.selectAll();
@@ -174,7 +173,7 @@ public class ViewController {
      */
     @RequestMapping("getFrends")
     @ResponseBody
-    @RequiresPermissions("user:select")//权限管理;
+    //@RequiresPermissions("user:select")//权限管理;
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
@@ -186,7 +185,7 @@ public class ViewController {
      */
     @RequestMapping("selectAuthor")
     @ResponseBody
-    @RequiresPermissions("user:select")//权限管理;
+    //@RequiresPermissions("user:select")//权限管理;
     public Author selectAuthor(){
         return authorDao.select();
     }
@@ -222,7 +221,7 @@ public class ViewController {
 
     @RequestMapping("selectShiroUser")
     @ResponseBody
-    @RequiresPermissions("user:select")//权限管理;
+    //@RequiresPermissions("user:select")//权限管理;
     public ShiroUserVo selectShiroUser(){
         return new ShiroUserVo(200,"ok",shiroUserService.getAllShiroUser());
     }
@@ -249,7 +248,7 @@ public class ViewController {
 
     @RequestMapping("selectPermission")
     @ResponseBody
-    @RequiresPermissions("user:select")//权限管理;
+    //@RequiresPermissions("user:select")//权限管理;
     public PermissionVo selectPermission(){
         return new PermissionVo(200,"ok",permissionService.getPermissions());
     }

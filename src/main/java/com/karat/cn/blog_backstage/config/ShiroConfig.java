@@ -44,7 +44,7 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/view/logout", "logout");
+        filterChainDefinitionMap.put("/view/logout", "anon");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->
         //filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
