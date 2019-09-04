@@ -28,25 +28,16 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        //默认跳转到登陆页面
+        //如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/view/ok");
-        // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/html/toIndex");
-        //未授权界面;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/html/toError");
-
-        //自定义过滤器
-        Map<String, Filter> filterMap=new LinkedHashMap<>();
-        shiroFilterFactoryBean.setFilters(filterMap);
 
         //权限控制map::authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
-        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/view/logout", "anon");
+        filterChainDefinitionMap.put("/view/login", "anon");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->
-        //filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

@@ -5,7 +5,7 @@ import com.karat.cn.blog_backstage.dao.*;
 import com.karat.cn.blog_backstage.util.*;
 import com.karat.cn.blog_backstage.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 
@@ -16,7 +16,7 @@ import weixin.popular.api.SnsAPI;
 import weixin.popular.bean.sns.Jscode2sessionResult;
 
 @RestController
-@Api("小程序接口")
+@Api("小程序Api接口")
 public class KaratController {
 
     @Autowired
@@ -32,14 +32,13 @@ public class KaratController {
     @Autowired
     AuthorDao authorDao;
 
-
     /**
      * 获取博客列表
      * @param limit
      * @param page
      * @return
      */
-    @RequestMapping("getBlogList")
+    @PostMapping("getBlogList")
     public BlogResponseVo getBlogList(int limit, int page){
         System.out.println("【当前条数】"+limit+"【当前页数】"+page);
         List<Blog> blogs=blogDao.selectAllByPage(0,-1);
@@ -57,13 +56,12 @@ public class KaratController {
         }
         return vo;
     }
-
     /**
      * 博客详情
      * @param blogId
      * @return
      */
-    @RequestMapping("getBlogDetail")
+    @PostMapping("getBlogDetail")
     public DetailResponseVo getBlogDetail(String blogId){
         System.out.println("【博客主键】"+blogId);
         DetailResponseVo vo=new DetailResponseVo();
@@ -81,7 +79,6 @@ public class KaratController {
         }
         return vo;
     }
-
     /**
      * 根据标签获取列表
      * @param limit
@@ -89,7 +86,7 @@ public class KaratController {
      * @param filter
      * @return
      */
-    @RequestMapping("getBlogListByTab")
+    @PostMapping("getBlogListByTab")
     public BlogResponseVo getBlogListByTab(int limit,int page,String filter){
         System.out.println("【当前条数】"+limit+"【当前页数】"+page+"【filter】"+filter);
         List<Blog> list=new ArrayList<>();
@@ -126,8 +123,6 @@ public class KaratController {
         }
         return new BlogResponseVo("","",list.size(),list);
     }
-
-
     /**
      * 添加评论
      * @param blogId
@@ -135,7 +130,7 @@ public class KaratController {
      * @param content
      * @return
      */
-    @RequestMapping("addComment")
+    @PostMapping("addComment")
     public CommentResponseVo addComment(String blogId, String openId, String content){
         System.out.println("【博客ID】"+blogId+"【用户openId】"+openId+"【内容】"+content);
         User user=userDao.selectById(openId);
@@ -146,13 +141,12 @@ public class KaratController {
             return new CommentResponseVo("201","请求失败");
         }
     }
-
     /**
      * 根据博客ID获取评论
      * @param blogId
      * @return
      */
-    @RequestMapping("getCommentByBlog")
+    @PostMapping("getCommentByBlog")
     public CommentResponseVo getCommentByBlog(String blogId){
         CommentResponseVo vo=new CommentResponseVo();
         System.out.println("【评论ID】"+blogId);
@@ -163,14 +157,12 @@ public class KaratController {
            return new CommentResponseVo("201","请求失败",0,null);
        }
     }
-
-
     /**
      * 获取openId
      * @param code
      * @return
      */
-    @RequestMapping("getOpenId")
+    @PostMapping("getOpenId")
     public WxResponseVo getOpenId(String code){
         WxResponseVo vo=new WxResponseVo("201","请求失败","");
         String appid="wxd7c8e803703c3868"; String secret="bf286bf21e998d272f5319db1a2dd9b0";
@@ -184,14 +176,12 @@ public class KaratController {
         }
         return vo;
     }
-
-
     /**
      * 添加用户信息
      * @param userRequestVo
      * @return
      */
-    @RequestMapping("addUser")
+    @PostMapping("addUser")
     public UserResponseVo addUser(UserRequestVo userRequestVo){
         System.out.println("【请求信息】"+userRequestVo.toString());
         UserResponseVo vo=new UserResponseVo("200","请求成功",null);
@@ -210,13 +200,12 @@ public class KaratController {
         }
         return vo;
     }
-
     /**
      * 根据openId获取用户信息
      * @param openId
      * @return
      */
-    @RequestMapping("getUserByOpenId")
+    @PostMapping("getUserByOpenId")
     public UserResponseVo getUserByOpenId(String openId){
         System.out.println("【openId】"+openId);
         User user=userDao.selectById(openId);
@@ -226,22 +215,19 @@ public class KaratController {
             return new UserResponseVo("201","请求失败",null);
         }
     }
-
     /**
      * 查看友链
      * @return
      */
-    @RequestMapping("getFrends")
+    @PostMapping("getFrends")
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
-
-
-    /**
+    /**。
      * 联系我
      * @return
      */
-    @RequestMapping("selectAuthor")
+    @PostMapping("selectAuthor")
     public Author selectAuthor(){
         return authorDao.select();
     }

@@ -80,22 +80,25 @@
                 permissions: [],
             },
         })
-
         //查看全部
         function getPermissionInfo(){
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: '/view/selectPermission',
-                data: {
-
-                },
                 success: function (msg) {
-                    vm.permissions = msg.permissions;
+                    if(msg.code==201){
+                        var layer = layui.layer;
+                        layer.msg(msg.msg, { icon: 1, time: 4000 });
+                        self.setInterval(function(){  // 这个方法是说在延迟两秒后执行大括号里的方法
+                            window.location.href="/html/to404";
+                        },2000) //这里2000代表两秒
+                    }else{
+                        vm.permissions = msg.permissions;
+                    }
                 },
                 error:function (msg) {
-                    var layer = layui.layer;
-                    layer.msg('您没有权限访问!', { icon: 1, time: 1000 });
+                    layui.layer.msg('error', { icon: 1, time: 1000 });
                 }
             });
         }

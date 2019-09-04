@@ -105,12 +105,19 @@
 
                 },
                 success: function (msg) {
-                    vm.roles = msg.shiroRoles;
+                    if(msg.code==201){
+                        var layer = layui.layer;
+                        layer.msg(msg.msg, { icon: 1, time: 4000 });
+                        self.setInterval(function(){  // 这个方法是说在延迟两秒后执行大括号里的方法
+                            window.location.href="/html/to404";
+                        },2000) //这里2000代表两秒
+                    }else{
+                        vm.roles = msg.shiroRoles;
+                    }
                 },
                 error:function (msg) {
-                    alert(msg.toString());
                     var layer = layui.layer;
-                    layer.msg('您没有权限访问!', { icon: 1, time: 1000 });
+                    layer.msg('error', { icon: 1, time: 1000 });
                 }
             });
         }
