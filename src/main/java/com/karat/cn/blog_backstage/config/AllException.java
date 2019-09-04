@@ -1,5 +1,6 @@
 package com.karat.cn.blog_backstage.config;
 
+import com.alibaba.fastjson.JSON;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroResponseVo;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,9 +20,9 @@ public class AllException {
     /// 角色权限限异常捕捉
     @ExceptionHandler(value = UnauthorizedException.class)
     @ResponseBody // 在返回自定义相应类的情况下必须有，这是@ControllerAdvice注解的规定
-    public ShiroResponseVo roleException(UnauthorizedException e) {
+    public String roleException(UnauthorizedException e) {
         System.out.println("---------角色权限限异常捕捉------------->" + e);
-        return new ShiroResponseVo(201,"角色权限不够");
+        return JSON.toJSONString(new ShiroResponseVo(201,"角色权限不够"));
     }
 
 

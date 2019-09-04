@@ -31,16 +31,18 @@ public class Realm extends AuthorizingRealm {
         ShiroUser shiroUser=(ShiroUser)  SecurityUtils.getSubject().getPrincipal();
         //根据用户名查询用户对象
         //ShiroUser user = shiroUserService.findByUsername(username);
-        //查询用户拥有的角色
-        Set<String> list = shiroUserService.findRoles(shiroUser.getUsername());
-        Set<String> list1 =shiroUserService.findPermissions(shiroUser.getUsername());
+
+        Set<String> list = shiroUserService.findRoles(shiroUser.getUsername());//角色
+        Set<String> list1 =shiroUserService.findPermissions(shiroUser.getUsername());//权限
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //添加权限
-        list.forEach(i->{
+        list1.forEach(i->{
+            System.out.println("拥有的权限："+i);
             info.addStringPermission(i);
         });
         //添加角色
-        list1.forEach(i->{
+        list.forEach(i->{
+            System.out.println("拥有的角色："+i);
             info.addRole(i);
         });
         return info;

@@ -236,6 +236,7 @@ public class ViewController {
      */
     @PostMapping("selectShiroRole")
     @ResponseBody
+    @RequiresRoles("user")
     public ShiroResponseVo selectShiroRole(){
         List<RoleVo> shiroRoles=new ArrayList<>();
         shiroRoleService.getShiroRoles().forEach(i->{
@@ -261,7 +262,6 @@ public class ViewController {
      */
     @PostMapping("selectPermission")
     @ResponseBody
-    //@RequiresRoles("admin")
     @RequiresPermissions("user:select")//权限管理;
     public ShiroResponseVo selectPermission(){
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");
