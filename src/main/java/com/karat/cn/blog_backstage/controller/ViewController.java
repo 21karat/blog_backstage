@@ -1,6 +1,5 @@
 package com.karat.cn.blog_backstage.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.karat.cn.blog_backstage.bean.Author;
 import com.karat.cn.blog_backstage.bean.Friend;
 import com.karat.cn.blog_backstage.bean.User;
@@ -17,6 +16,7 @@ import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -65,18 +65,15 @@ public class ViewController {
     RolePermissionService rolePermissionService;
 
     /*=====================================后台登陆============================================*/
-    //登录
+
     @GetMapping("/ok")
+    @ApiOperation("调转登录")
     public String ok()  {
         return "login";
     }
-    /**
-     * 后台登陆
-     * @param username
-     * @param password
-     * @return
-     */
+
     @PostMapping("/login")
+    @ApiOperation("后台登陆")
     public String login(String username, String password, Map<String, Object> map) {
         //将用户名与密码存入令牌中
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -115,11 +112,8 @@ public class ViewController {
         return "login";
     }
 
-    /**
-     * 退出
-     * @return
-     */
     @RequestMapping(value="logout",method = {RequestMethod.POST, RequestMethod.GET})
+    @ApiOperation("退出")
     public String logout(){
         //subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
         //即使session托管给了redis ，redis有很多个浏览器的session
@@ -134,69 +128,53 @@ public class ViewController {
 
     }
     /*============================================博客小程序数据统计======================================*/
-    /**
-     * 查看用户
-     * @param limit
-     * @param curr
-     * @return
-     */
+
     @PostMapping("/getUserByPage")
     @ResponseBody
+    @ApiOperation("查看用户")
     public ResponseUserVo getUserByPage(int limit,int curr)  {
         System.out.println("每页大小："+limit+"当前页:"+curr);
         List<User> users=userDao.selectAll();
         System.out.println(users.size());
         return new ResponseUserVo(users.size(),curr,PageUtil.getPageByList(users,curr,limit));
     }
-    /**
-     * 添加用户
-     * @param user
-     * @return
-     */
+
     @PostMapping("/insertUser")
     @ResponseBody
+    @ApiOperation("添加用户")
     public ResponseUserVo insertUser(User user)  {
         System.out.println(user.toString());
         userDao.addUser(user);
         List<User> users=userDao.selectAll();
         return new ResponseUserVo(users.size(),1,PageUtil.getPageByList(users,1,2));
     }
-    /**
-     * 删除用户
-     * @param openId
-     * @return
-     */
+
     @PostMapping("/delUser")
     @ResponseBody
+    @ApiOperation("删除用户")
     public ResponseUserVo delUser(String openId)  {
         userDao.delUser(openId);
         List<User> users=userDao.selectAll();
         return new ResponseUserVo(users.size(),1,PageUtil.getPageByList(users,1,2));
     }
-    /**
-     * 查看友链
-     * @return
-     */
+
     @PostMapping("getFrends")
     @ResponseBody
+    @ApiOperation("查看友链")
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
-    /**
-     * 查看联系我
-     * @return
-     */
+
     @PostMapping("selectAuthor")
     @ResponseBody
+    @ApiOperation("查看联系我")
     public Author selectAuthor(){
         return authorDao.select();
     }
-    /**
-     * 查看标签
-     * @return
-     */
+
     @PostMapping("selectTag")
     @ResponseBody
+    @ApiOperation("查看标签")
     public List<ResponseTagVo> selectTag(){
         List<ResponseTagVo> vo=new ArrayList<>();
         vo.add(new ResponseTagVo(RedisKey.JAVA));
@@ -206,37 +184,30 @@ public class ViewController {
         vo.add(new ResponseTagVo(RedisKey.WEB));
         return vo;
     }
-    /**
-     * 查看数据统计
-     * @return
-     */
+
     @PostMapping("getNum")
     @ResponseBody
+    @ApiOperation("查看数据统计")
     public ResponseNumVo getNum(){
         return new ResponseNumVo(blogDao.selectAll().size(),userDao.selectAll().size(),199, 5,friendDao.selectAll().size());
     }
 
     /*=======================================权限相关===========================================*/
 
-    /**
-     * 查看用户
-     * @return
-     */
     @PostMapping("selectShiroUser")
     @ResponseBody
     @RequiresPermissions("user:select")//权限管理;
+    @ApiOperation("查看用户")
     public ShiroResponseVo selectShiroUser(){
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");
         vo.setShiroUsers(shiroUserService.getAllShiroUser());
         return vo;
     }
-    /**
-     * 查看角色
-     * @return
-     */
+
     @PostMapping("selectShiroRole")
     @ResponseBody
     @RequiresRoles("user")
+    @ApiOperation("查看角色")
     public ShiroResponseVo selectShiroRole(){
         List<RoleVo> shiroRoles=new ArrayList<>();
         shiroRoleService.getShiroRoles().forEach(i->{
@@ -256,13 +227,11 @@ public class ViewController {
         vo.setShiroRoles(shiroRoles);
         return vo;
     }
-    /**
-     * 查看权限
-     * @return
-     */
+
     @PostMapping("selectPermission")
     @ResponseBody
     @RequiresPermissions("user:select")//权限管理;
+    @ApiOperation("查看权限")
     public ShiroResponseVo selectPermission(){
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");
         vo.setPermissions(permissionService.getPermissions());

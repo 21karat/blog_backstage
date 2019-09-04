@@ -36,6 +36,7 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/view/login", "anon");
+        filterChainDefinitionMap.put("/Api/**", "anon");//放行小程序api接口
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
