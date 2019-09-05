@@ -47,21 +47,19 @@
                         </div>
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','member-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加用户','/html/toMemberAdd',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
                                 <thead>
                                   <tr>
-                                    <th>
-                                      <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
-                                    </th>
+                                    <th><input type="checkbox" lay-filter="checkall" name="" lay-skin="primary"></th>
                                     <th>ID</th>
                                     <th>OpenId</th>
                                     <th>头像</th>
                                     <th>名称</th>
-                                    <th>状态</th>
-                                    <th>操作</th></tr>
+                                    <th>操作</th>
+                                  </tr>
                                 </thead>
                                 <tbody>
                                   <tr v-for="site in sites" :key="site.openId">
@@ -74,18 +72,9 @@
                                     <td><img v-bind:src="site.url"/></td>
                                     <td>{{site.name}}</td>
 
-
-                                    <td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                      </a>
-                                      <a title="编辑"  onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
+                                      <a title="编辑"  onclick="xadmin.open('编辑','/html/toMemberEdit',600,400)" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
-                                      </a>
-                                      <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
-                                        <i class="layui-icon">&#xe631;</i>
                                       </a>
                                       <a title="删除" @click="member_del(site.openId)" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
@@ -121,7 +110,7 @@
 					$.ajax({
 					    type: 'POST',
 					    dataType: 'json',
-					    url: 'view/delUser',
+					    url: '/view/delUser',
 					    data: {
 					        openId: openId
 					    },
@@ -136,9 +125,7 @@
 					    }
 					});
 			    });
-			},
-			
-			
+			}
 		}
       })
 	  
@@ -183,9 +170,9 @@
 
 
       layui.use(['laydate','form'], function(){
+
         var laydate = layui.laydate;
         var  form = layui.form;
-
 
         // 监听全选
         form.on('checkbox(checkall)', function(data){
@@ -196,8 +183,8 @@
             $('tbody input').prop('checked',false);
           }
           form.render('checkbox');
-        }); 
-        
+        });
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -211,31 +198,6 @@
 
       });
 
-       /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
-      }
-
-   
 
       function delAll (argument) {
         var ids = [];

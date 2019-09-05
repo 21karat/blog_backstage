@@ -15,8 +15,7 @@
     <body class="index">
         <!-- 顶部开始 -->
         <div class="container">
-            <div class="logo">
-                <a href="index.html">X-admin v2.2</a></div>
+            <div class="logo"><a href="index.html">X-admin v2.2</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -74,9 +73,9 @@
                 <ul id="nav">
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i><cite>会员管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
                                 <a onclick="xadmin.add_tab('统计页面','/html/toWelcome1')">
@@ -84,15 +83,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('会员列表(静态表格)','/html/toMember')">
-                                    <i class="iconfont">&#xe6a7;</i><cite>会员列表(静态表格)</cite>
+                                <a onclick="xadmin.add_tab('会员列表','/html/toMember')">
+                                    <i class="iconfont">&#xe6a7;</i><cite>会员列表</cite>
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;">
-                                    <i class="iconfont">&#xe70b;</i>
-                                    <cite>会员管理</cite>
-                                    <i class="iconfont nav_right">&#xe697;</i></a>
+                                <a href="javascript:;"><i class="iconfont">&#xe70b;</i><cite>会员管理</cite>
+                                    <i class="iconfont nav_right">&#xe697;</i>
+                                </a>
                                 <ul class="sub-menu">
                                     <li>
                                         <a onclick="xadmin.add_tab('会员删除','/html/toMemberDel')">
@@ -110,8 +108,7 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="订单管理">&#xe723;</i>
-                            <cite>订单管理</cite>
+                            <i class="iconfont left-nav-li" lay-tips="订单管理">&#xe723;</i><cite>订单管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu">
@@ -129,8 +126,7 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i>
-                            <cite>分类管理</cite>
+                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i><cite>分类管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu">
@@ -154,38 +150,30 @@
            
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
-                            <cite>管理员管理</cite>
+                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i><cite>管理员管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a onclick="xadmin.add_tab('管理员列表','/html/toShiroUser')"><i class="iconfont">&#xe6a7;</i>
-                                    <cite>管理员列表</cite>
+                                    <cite>管理员</cite>
                                 </a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('角色管理','/html/toShiroRole')"><i class="iconfont">&#xe6a7;</i>
-                                    <cite>角色管理</cite>
+                                    <cite>角色</cite>
                                 </a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('权限分类','/html/toCate')"><i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限分类</cite>
-                                </a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('权限管理','/html/toShiroRule')"><i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限管理</cite>
+                                    <cite>权限</cite>
                                 </a>
                             </li>
                         </ul>
                     </li>
-            
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="其它页面">&#xe6b4;</i>
-                            <cite>其它页面</cite>
+                            <i class="iconfont left-nav-li" lay-tips="其它页面">&#xe6b4;</i><cite>其它页面</cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu">

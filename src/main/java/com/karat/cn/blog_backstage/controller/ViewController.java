@@ -12,6 +12,8 @@ import com.karat.cn.blog_backstage.util.PageUtil;
 import com.karat.cn.blog_backstage.util.RedisKey;
 import com.karat.cn.blog_backstage.vo.shiro.RoleVo;
 import com.karat.cn.blog_backstage.vo.shiro.ShiroResponseVo;
+import com.karat.cn.blog_backstage.vo.shiro.ShiroUserVo;
+import com.karat.cn.blog_backstage.vo.view.Response;
 import com.karat.cn.blog_backstage.vo.view.ResponseNumVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseTagVo;
 import com.karat.cn.blog_backstage.vo.view.ResponseUserVo;
@@ -23,6 +25,8 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +44,8 @@ import java.util.*;
 @Api("后台接口")
 public class ViewController {
 
+
+    private static final Logger log = LoggerFactory.getLogger(ViewController.class);
 
     @Autowired
     BlogDao blogDao;
@@ -85,28 +91,28 @@ public class ViewController {
             return "redirect:/html/toIndex";
         } catch (IncorrectCredentialsException e) {
             msg = "登录密码错误";
-            System.out.println("登录密码错误!!!" + e);
+            log.warn("登录密码错误!!!" + e);
         } catch (ExcessiveAttemptsException e) {
             msg = "登录失败次数过多";
-            System.out.println("登录失败次数过多!!!" + e);
+            log.warn("登录失败次数过多!!!" + e);
         } catch (LockedAccountException e) {
             msg = "帐号已被锁定";
-            System.out.println("帐号已被锁定!!!" + e);
+            log.warn("帐号已被锁定!!!" + e);
         } catch (DisabledAccountException e) {
             msg = "帐号已被禁用";
-            System.out.println("帐号已被禁用!!!" + e);
+            log.warn("帐号已被禁用!!!" + e);
         } catch (ExpiredCredentialsException e) {
             msg = "帐号已过期";
-            System.out.println("帐号已过期!!!" + e);
+            log.warn("帐号已过期!!!" + e);
         } catch (UnknownAccountException e) {
             msg = "帐号不存在";
-            System.out.println("帐号不存在!!!" + e);
+            log.warn("帐号不存在!!!" + e);
         } catch (UnauthorizedException e) {
             msg = "您没有得到相应的授权！";
-            System.out.println("您没有得到相应的授权！" + e);
+            log.warn("您没有得到相应的授权！" + e);
         } catch (Exception e) {
             msg = e.getMessage();
-            System.out.println("出错！！！" + e);
+            log.warn("出错！！！" + e);
         }
         map.put("msg", msg);//返回错误信息
         return "login";
@@ -129,26 +135,15 @@ public class ViewController {
     }
     /*============================================博客小程序数据统计======================================*/
 
-    @PostMapping("/getUserByPage")
-    @ResponseBody
-    @ApiOperation("查看用户")
-    public ResponseUserVo getUserByPage(int limit,int curr)  {
-        System.out.println("每页大小："+limit+"当前页:"+curr);
-        List<User> users=userDao.selectAll();
-        System.out.println(users.size());
-        return new ResponseUserVo(users.size(),curr,PageUtil.getPageByList(users,curr,limit));
-    }
-
     @PostMapping("/insertUser")
     @ResponseBody
     @ApiOperation("添加用户")
     public ResponseUserVo insertUser(User user)  {
-        System.out.println(user.toString());
+        log.warn(user.toString());
         userDao.addUser(user);
         List<User> users=userDao.selectAll();
         return new ResponseUserVo(users.size(),1,PageUtil.getPageByList(users,1,2));
     }
-
     @PostMapping("/delUser")
     @ResponseBody
     @ApiOperation("删除用户")
@@ -157,6 +152,29 @@ public class ViewController {
         List<User> users=userDao.selectAll();
         return new ResponseUserVo(users.size(),1,PageUtil.getPageByList(users,1,2));
     }
+    @PostMapping("/editUser")
+    @ResponseBody
+    @ApiOperation("修改用户")
+    public Response editUser(String openId, String url, String name)  {
+        User user=userDao.selectById(openId);
+        if(user!=null){
+            user.setName(name);
+            user.setUrl(url);
+            userDao.updateUser(user);
+            return new Response(200,"ok");
+        }else{
+            return new Response(201,"error");
+        }
+    }
+    @PostMapping("/getUserByPage")
+    @ResponseBody
+    @ApiOperation("查看用户")
+    public ResponseUserVo getUserByPage(int limit,int curr)  {
+        log.warn("每页大小："+limit+"当前页:"+curr);
+        List<User> users=userDao.selectAll();
+        System.out.println(users.size());
+        return new ResponseUserVo(users.size(),curr,PageUtil.getPageByList(users,curr,limit));
+    }
 
     @PostMapping("getFrends")
     @ResponseBody
@@ -164,14 +182,12 @@ public class ViewController {
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
-
     @PostMapping("selectAuthor")
     @ResponseBody
     @ApiOperation("查看联系我")
     public Author selectAuthor(){
         return authorDao.select();
     }
-
     @PostMapping("selectTag")
     @ResponseBody
     @ApiOperation("查看标签")
@@ -184,7 +200,6 @@ public class ViewController {
         vo.add(new ResponseTagVo(RedisKey.WEB));
         return vo;
     }
-
     @PostMapping("getNum")
     @ResponseBody
     @ApiOperation("查看数据统计")
@@ -200,13 +215,39 @@ public class ViewController {
     @ApiOperation("查看用户")
     public ShiroResponseVo selectShiroUser(){
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");
-        vo.setShiroUsers(shiroUserService.getAllShiroUser());
+
+        List<ShiroUserVo> shiroUserVos=new ArrayList<>();
+        shiroUserService.getAllShiroUser().forEach(i->{
+            ShiroUserVo shiroUserVo=new ShiroUserVo();
+            shiroUserVo.setId(i.getId());
+            shiroUserVo.setLocked(i.getLocked());
+            shiroUserVo.setPassword(i.getPassword());
+            shiroUserVo.setUsername(i.getUsername());
+            //查看角色
+            shiroUserService.findRoles(i.getUsername()).forEach(j->{
+                if(shiroUserVo.getRole()==null){
+                    shiroUserVo.setRole("【"+j+"】");
+                }else{
+                    shiroUserVo.setRole(shiroUserVo.getRole()+"【"+j+"】");
+                }
+            });
+            //查看权限
+            shiroUserService.findPermissions(i.getUsername()).forEach(j->{
+                if(shiroUserVo.getPermission()==null){
+                    shiroUserVo.setPermission("【"+j+"】");
+                }else {
+                    shiroUserVo.setPermission(shiroUserVo.getPermission() + "【" + j + "】");
+                }
+            });
+
+            shiroUserVos.add(shiroUserVo);
+        });
+        vo.setShiroUsers(shiroUserVos);
         return vo;
     }
 
     @PostMapping("selectShiroRole")
     @ResponseBody
-    @RequiresRoles("user")
     @ApiOperation("查看角色")
     public ShiroResponseVo selectShiroRole(){
         List<RoleVo> shiroRoles=new ArrayList<>();
@@ -216,13 +257,20 @@ public class ViewController {
             vo.setRole(i.getRole());
             vo.setDescription(i.getDescription());
 
-            Set set=new HashSet();
             rolePermissionService.select(i.getRoleid()).forEach(j->{
-                vo.setRoledes(vo.getRoledes()+"【"+permissionService.getPermissionByid(j.getPermissionId()).getPermission()+"】");
+                if(vo.getRoledes()==null){
+                    vo.setRoledes("【"+permissionService.getPermissionByid(j.getPermissionId()).getPermission()+"】");
+                }else{
+                    vo.setRoledes(vo.getRoledes()+"【"+permissionService.getPermissionByid(j.getPermissionId()).getPermission()+"】");
+                }
             });
             shiroRoles.add(vo);
         });
-
+        shiroRoles.forEach(i->{
+            if(i==null){
+                shiroRoles.remove(i);
+            }
+        });
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");
         vo.setShiroRoles(shiroRoles);
         return vo;
@@ -230,7 +278,7 @@ public class ViewController {
 
     @PostMapping("selectPermission")
     @ResponseBody
-    @RequiresPermissions("user:select")//权限管理;
+    @RequiresRoles("user")
     @ApiOperation("查看权限")
     public ShiroResponseVo selectPermission(){
         ShiroResponseVo vo=new ShiroResponseVo(200,"ok");

@@ -15,7 +15,7 @@ public class ShiroResponseVo {
     //角色
     private List<RoleVo> shiroRoles;
     //用户
-    private List<ShiroUser> shiroUsers;
+    private List<ShiroUserVo> shiroUsers;
 
     public ShiroResponseVo() {
     }
@@ -57,11 +57,11 @@ public class ShiroResponseVo {
         this.shiroRoles = shiroRoles;
     }
 
-    public List<ShiroUser> getShiroUsers() {
+    public List<ShiroUserVo> getShiroUsers() {
         return shiroUsers;
     }
 
-    public void setShiroUsers(List<ShiroUser> shiroUsers) {
+    public void setShiroUsers(List<ShiroUserVo> shiroUsers) {
         this.shiroUsers = shiroUsers;
     }
 }

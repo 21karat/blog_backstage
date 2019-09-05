@@ -21,6 +21,12 @@ public class UserDaoImpl implements UserDao {
         redisTemplate.opsForValue().set(RedisKey.USER+user.getOpenId(),user);
         redisTemplate.opsForList().leftPush(RedisKey.USERLIST,user.getOpenId());
     }
+
+
+    //修改用户信息
+    public void updateUser(User user){
+        redisTemplate.opsForValue().set(RedisKey.USER+user.getOpenId(),user);
+    }
     //根据用户openId查看用户信息
    public User selectById(String openId){
         return (User) redisTemplate.opsForValue().get(RedisKey.USER+openId);

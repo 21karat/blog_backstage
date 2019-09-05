@@ -25,13 +25,22 @@ public class HtmlController {
     public String toAuthor() {
         return "author/author-list";
     }
-    @RequestMapping(value = "/toMember", method = {RequestMethod.POST, RequestMethod.GET})
-    public String toMember() {
-        return "member/member-list";
+
+    @RequestMapping(value = "/toMemberAdd", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toMemberAdd() {
+        return "member/member-add";
     }
     @RequestMapping(value = "/toMemberDel", method = {RequestMethod.POST, RequestMethod.GET})
     public String toMemberDel() {
         return "member/member-del";
+    }
+    @RequestMapping(value = "/toMemberEdit", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toMemberEdit() {
+        return "member/member-edit";
+    }
+    @RequestMapping(value = "/toMember", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toMember() {
+        return "member/member-list";
     }
 
     //跳转权限数据管理页

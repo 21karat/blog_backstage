@@ -51,5 +51,11 @@ public class UserDemo {
         });*/
     }
 
+    @Test
+    public void update(){
+        User user=userDao.selectById("852");
+        user.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567675189825&di=dbc09d3c6bee35ff7b350a6412f6689d&imgtype=0&src=http%3A%2F%2Fimg1.soufunimg.com%2Fbbs%2Fusercenter%2Fportrait%2F2009_06%2F23%2F1245721898593.gif");
+        redisTemplate.opsForValue().set("user_852",user);
+    }
 
 }

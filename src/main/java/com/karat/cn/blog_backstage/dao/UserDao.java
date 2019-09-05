@@ -14,5 +14,7 @@ public interface UserDao {
     List<User> selectAll();
     //删除用户信息
     void delUser(String openId);
+    //修改用户信息
+    void updateUser(User user);
 
 }
