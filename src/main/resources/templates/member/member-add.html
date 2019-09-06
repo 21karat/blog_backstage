@@ -59,20 +59,13 @@
                 //监听提交
                 form.on('submit(add)',
                 function(data) {
-					console.log( data);
-                    console.log( data.field.id);
 					$.ajax({
 					    type: 'POST',
 					    dataType: 'json',
-					    url: '/view/insertUser',
-					    data: {
-					        id: data.field.id,
-					        name:data.field.name,
-							openId:data.field.openId,
-							url:data.field.url
-					    },
+					    url: '/rest/user',
+                        contentType: "application/json",
+                        data : JSON.stringify(data.field),
 					    success: function (msg) {
-							alert(msg.users);
 							if(msg.users.length>0){
 								parent.layer.msg('添加成功!', { icon: 1, time: 1000 }, function () {
 									parent.$('.btn-refresh').click();
@@ -87,10 +80,7 @@
 						error:function (msg) {
 					        layer.msg('error!', { icon: 1, time: 1000 });
 					    }
-					}); 
-					
-					
-   
+					});
                     return false;
                 });
 

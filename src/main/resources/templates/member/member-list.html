@@ -108,19 +108,15 @@
 			member_del:function (openId){
 			    layer.confirm('确认要删除吗？',function(){
 					$.ajax({
-					    type: 'POST',
+					    type: 'DELETE',
 					    dataType: 'json',
-					    url: '/view/delUser',
-					    data: {
-					        openId: openId
-					    },
+					    url: '/rest/user/'+openId,
 					    success: function (msg) {
 						  vm.sites = msg.users;
-						  getUserInfo();
 					      layer.msg('已删除!',{icon:1,time:1000});
+                          getUserInfo();
 					    },
 						error:function (msg) {
-					        alert("失败");
 							layer.msg('删除失败!',{icon:1,time:1000});
 					    }
 					});
@@ -132,13 +128,14 @@
 	  //查看全部
 	  function getUserInfo(curr){
 		 $.ajax({
-            type: 'POST',
+            type: 'GET',
             dataType: 'json',
-            url: '/view/getUserByPage',
+            url: '/rest/user',
             data: {
                 curr: curr || 1,
                 limit: 4
             },
+            contentType : 'application/x-www-form-urlencoded',
             success: function (msg) {
 			  vm.sites = msg.users;
               //layui分页

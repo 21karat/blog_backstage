@@ -61,7 +61,7 @@
 		 $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: '/view/selectTag',
+            url: '/rest/tag',
             success: function (msg) {
 			  vm.sites = msg;
             },
