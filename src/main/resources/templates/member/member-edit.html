@@ -14,8 +14,8 @@
         <!--[if lt IE 9]>
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
             <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]--></head>
-    
+        <![endif]-->
+    </head>
     <body>
         <div class="layui-fluid">
             <div class="layui-row">
@@ -50,8 +50,8 @@
                 </form>
             </div>
         </div>
-        <script>layui.use(['form', 'layer'],
-            function() {
+        <script>
+            layui.use(['form', 'layer'],function() {
                 $ = layui.jquery;
                 var form = layui.form,layer = layui.layer;
                 //监听提交
@@ -97,7 +97,8 @@
             });
         </script>
         <script>
-            var _hmt = _hmt || []; (function() {
+            var _hmt = _hmt || [];
+            (function(){
                 var hm = document.createElement("script");
                 hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
                 var s = document.getElementsByTagName("script")[0];

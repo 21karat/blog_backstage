@@ -2,7 +2,7 @@
 <html class="x-admin-sm">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.2</title>
+        <title>标签页面</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -35,8 +35,8 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr v-for="site in sites" :key="site.openId">
-                                    <td>{{site.name}}</td>
+                                  <tr v-for="t in tages" :key="t.openId">
+                                    <td>{{t.name}}</td>
                                   </tr>
                                 </tbody>
                             </table>
@@ -52,21 +52,22 @@
         el: '#tab',
         data: {
 			//模拟假数据
-            sites:{},
+            tages:[],
         },
       })
 	  
 	  //查看全部
-	  function getTagInfo(curr){
+	  function getTagInfo(){
 		 $.ajax({
             type: 'POST',
             dataType: 'json',
             url: '/rest/tag',
             success: function (msg) {
-			  vm.sites = msg;
+			  vm.tages = msg;
             },
 			error:function (msg) {
-                alert("失败");
+                var layer = layui.layer;
+                layer.msg('error',{icon:1,time:1000});
             }
         });
 	  }
