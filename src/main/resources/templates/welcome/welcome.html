@@ -191,7 +191,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/info',
+            url: 'https://lj.luokaiii.cn/actuator/info',
             success: function (msg) {
                 vm.info = msg.app;
             },
@@ -205,7 +205,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/health',
+            url: 'https://lj.luokaiii.cn/actuator/health',
             success: function (msg) {
                 vm.redis=msg.details.redis;
                 vm.diskSpace=msg.details.diskSpace;
@@ -234,7 +234,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/metrics/system.cpu.count',
+            url: 'https://lj.luokaiii.cn/actuator/metrics/system.cpu.count',
             success: function (msg) {
                 vm.cpu=msg.measurements[0].value;
             },
@@ -248,7 +248,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/metrics/process.cpu.usage',
+            url: 'https://lj.luokaiii.cn/actuator/metrics/process.cpu.usage',
             success: function (msg) {
                 vm.cpuUser=msg.measurements[0].value;
             },
@@ -262,7 +262,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://localhost:8080/actuator/metrics/tomcat.global.request',
+            url: 'https://lj.luokaiii.cn/actuator/metrics/tomcat.global.request',
             success: function (msg) {
                 vm.tomcatNum=msg.measurements[0].value;
             },
