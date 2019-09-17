@@ -59,7 +59,7 @@
 	  //查看全部
 	  function getTagInfo(){
 		 $.ajax({
-            type: 'POST',
+            type: 'GET',
             dataType: 'json',
             url: '/rest/tag',
             success: function (msg) {

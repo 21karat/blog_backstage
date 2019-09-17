@@ -33,12 +33,11 @@ public class AuthorDemo {
     @Test
     public void add(){
         Author author=new Author("不埋怨谁，不嘲笑谁，也不羡慕谁，阳光下灿烂，风雨中奔跑，做自己的梦，走自己的路。","lijing13949080725@163.com","21Karat","https://github.com/21karat","https://www.cnblogs.com/LJing21/");
-        authorDao.add(author);
+        authorDao.insertOrUpdate(author);
     }
 
     @Test
     public void select(){
-
         System.out.println((User)redisTemplate.opsForValue().get(RedisKey.USER+"oaXaZ5Vj1FJEMI_YPMmifOXKFTYQ"));
     }
 }

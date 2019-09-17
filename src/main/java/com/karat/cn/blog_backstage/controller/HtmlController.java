@@ -17,13 +17,23 @@ public class HtmlController {
     public String toTag() {
         return "tag/tag-list";
     }
+
     @RequestMapping(value = "/toFriend", method = {RequestMethod.POST, RequestMethod.GET})
-    public String toFriend() {
-        return "friend/friend-list";
+    public String toFriend() { return "friend/friend-list"; }
+    @RequestMapping(value = "/toAddFriend", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toAddFriend() { return "friend/friend-add"; }
+    @RequestMapping(value = "/toUpdateFriend", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toUpdateFriend() {
+        return "friend/friend-edit";
     }
+
     @RequestMapping(value = "/toAuthor", method = {RequestMethod.POST, RequestMethod.GET})
     public String toAuthor() {
         return "author/author-list";
+    }
+    @RequestMapping(value = "/toUpdateAuthor", method = {RequestMethod.POST, RequestMethod.GET})
+    public String toUpdateAuthor() {
+        return "author/author-edit";
     }
 
     @RequestMapping(value = "/toMemberAdd", method = {RequestMethod.POST, RequestMethod.GET})

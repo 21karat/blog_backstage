@@ -1,11 +1,12 @@
 package com.karat.cn.blog_backstage.bean;
 
+
 import java.io.Serializable;
 
 /**
  * 友链
  */
-public class Friend implements Serializable {
+public class Friend implements Serializable{
 
     //ID
     private String id;
@@ -57,4 +58,5 @@ public class Friend implements Serializable {
                 ", adrr='" + adrr + '\'' +
                 '}';
     }
+
 }

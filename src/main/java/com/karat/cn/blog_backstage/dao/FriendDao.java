@@ -10,5 +10,8 @@ public interface FriendDao {
     List<Friend> selectAll();
     //添加友链
     void add(Friend friend);
-
+    //删除友链
+    List<Friend> delFriend(String id);
+    //修改友链
+    void updateFriend(Friend friend);
 }

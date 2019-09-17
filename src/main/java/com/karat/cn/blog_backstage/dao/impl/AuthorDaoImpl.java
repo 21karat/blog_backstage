@@ -13,12 +13,13 @@ public class AuthorDaoImpl implements AuthorDao {
     @Autowired
     RedisTemplate redisTemplate;
 
-    //添加联系作者
-    public void add(Author author){
+    //添加或修改联系作者
+    public void insertOrUpdate(Author author){
         redisTemplate.opsForValue().set(RedisKey.AUTHOR,author);
     }
     //查看联系作者
     public Author select(){
         return (Author) redisTemplate.opsForValue().get(RedisKey.AUTHOR);
     }
+
 }

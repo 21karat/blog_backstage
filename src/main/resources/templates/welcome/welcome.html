@@ -191,7 +191,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'https://lj.luokaiii.cn/actuator/info',
+            url: 'http://localhost:8080/actuator/info',
             success: function (msg) {
                 vm.info = msg.app;
             },
@@ -205,7 +205,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'https://lj.luokaiii.cn/actuator/health',
+            url: 'http://localhost:8080/actuator/health',
             success: function (msg) {
                 vm.redis=msg.details.redis;
                 vm.diskSpace=msg.details.diskSpace;
@@ -218,7 +218,7 @@
     //数据统计
     function getNum(){
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             dataType: 'json',
             url: '/rest/number',
             success: function (msg) {
@@ -234,7 +234,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'https://lj.luokaiii.cn/actuator/metrics/system.cpu.count',
+            url: 'http://localhost:8080/actuator/metrics/system.cpu.count',
             success: function (msg) {
                 vm.cpu=msg.measurements[0].value;
             },
@@ -248,7 +248,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'https://lj.luokaiii.cn/actuator/metrics/process.cpu.usage',
+            url: 'http://localhost:8080/actuator/metrics/process.cpu.usage',
             success: function (msg) {
                 vm.cpuUser=msg.measurements[0].value;
             },
@@ -262,7 +262,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'https://lj.luokaiii.cn/actuator/metrics/tomcat.global.request',
+            url: 'http://localhost:8080/actuator/metrics/tomcat.global.request',
             success: function (msg) {
                 vm.tomcatNum=msg.measurements[0].value;
             },

@@ -38,17 +38,47 @@ public class RESTfulController {
     @Autowired
     BlogDao blogDao;
     /*============================================博客小程序数据统计======================================*/
-    @PostMapping("/frend")
+    @GetMapping("/frend")
     @ApiOperation("查看友链")
     public List<Friend> getFrends(){
         return friendDao.selectAll();
     }
-    @PostMapping("/author")
+    @DeleteMapping("/frend/{id}")
+    @ApiOperation("删除友链")
+    public List<Friend> delFrends(@PathVariable String id){
+        System.out.println(id);
+        return friendDao.delFriend(id);
+    }
+    @PutMapping("/frend/{id}")
+    @ApiOperation("修改友链")
+    public RequestFrendVo updateFriends(@PathVariable String id,@RequestParam("name") String name,@RequestParam("adrr") String adrr){
+        System.out.println(id+name+adrr);
+        friendDao.updateFriend(new Friend(id,name,adrr));
+        return new RequestFrendVo(200,"成功",null);
+    }
+    @PostMapping("/frend")
+    @ApiOperation("添加友链")
+    public RequestFrendVo insertFriends(@RequestBody Friend friend){
+        System.out.println(friend.toString());
+        friendDao.add(friend);
+        return new RequestFrendVo(200,"成功",null);
+    }
+
+
+    @GetMapping("/author")
     @ApiOperation("查看联系我")
     public Author selectAuthor(){
         return authorDao.select();
     }
-    @PostMapping("/tag")
+    @PostMapping("/author")
+    @ApiOperation("修改联系我")
+    public RequestAuthorVo updateAuthor(@RequestBody Author author){
+        authorDao.insertOrUpdate(author);
+        return new RequestAuthorVo(200,"成功",author);
+    }
+
+
+    @GetMapping("/tag")
     @ApiOperation("查看标签")
     public List<ResponseTagVo> selectTag(){
         List<ResponseTagVo> vo=new ArrayList<>();
@@ -59,7 +89,8 @@ public class RESTfulController {
         vo.add(new ResponseTagVo(RedisKey.WEB));
         return vo;
     }
-    @PostMapping("number")
+
+    @GetMapping("number")
     @ApiOperation("查看数据统计")
     public ResponseNumVo getNum(){
         return new ResponseNumVo(blogDao.selectAll().size(),userDao.selectAll().size(),199, 5,friendDao.selectAll().size());
@@ -70,7 +101,6 @@ public class RESTfulController {
     @ApiOperation(value="创建用户", notes="根据User对象创建用户")
     @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
     public ResponseUserVo insertUser(@RequestBody User user)  {
-        log.warn(user.toString());
         userDao.addUser(user);
         List<User> users=userDao.selectAll();
         return new ResponseUserVo(users.size(),1, PageUtil.getPageByList(users,1,2));
